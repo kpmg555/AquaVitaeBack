@@ -18,10 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 @Entity
 @Table(name = "Ubicacion")
 public class UbicacionEntity {
