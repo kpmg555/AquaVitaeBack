@@ -5,6 +5,8 @@ package com.aquavitae.infrastructure.entities;
 //   objeto-relacional. No tiene lógica de negocio.
 //El dominio no debe saber que existe JPA.
 
+//Mapea la tabla Planta. Tiene relación ManyToOne con UbicacionEntity para poder acceder a lat/lon directamente
+
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
