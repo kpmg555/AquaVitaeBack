@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class EstadoPlanta {
     private UUID id;
-    private Integer idPlanta;
+    private UUID idPlanta;
     private LocalDateTime fechaRegistro;
     private Float nivelAgua;
     private Float indiceHidrico;
@@ -24,8 +24,8 @@ public class EstadoPlanta {
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
 
-    public Integer getIdPlanta() { return idPlanta; }
-    public void setIdPlanta(Integer idPlanta) { this.idPlanta = idPlanta; }
+    public UUID getIdPlanta() { return idPlanta; }
+    public void setIdPlanta(UUID idPlanta) { this.idPlanta = idPlanta; }
 
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
