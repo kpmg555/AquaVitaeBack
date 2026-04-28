@@ -13,5 +13,5 @@ public interface RiesgoHidricoFacadePort {
     List<PlantaRiesgo> obtenerPlantasConRiesgo();
     long contarCrisisActivas();
     List<AlertaResumen> obtenerAlertasRecientes(int limite);
-    Map<String, Double> obtenerEvolucion7Dias();
+    Map<String, Float> obtenerEvolucion7Dias();
 }

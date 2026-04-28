@@ -16,7 +16,7 @@ public class PlantaRiesgo {
 
         // ── Reglas de negocio ────────────────────────────────────────
         // Estas reglas viven aquí y NO en el usecase ni en el mapper,
-        // porque son invariantes del dominio: siempre que exista una
+        // Siempre que exista una
         // PlantaRiesgo, estas reglas aplican.
         // ─────────────────────────────────────────────────────────────
 

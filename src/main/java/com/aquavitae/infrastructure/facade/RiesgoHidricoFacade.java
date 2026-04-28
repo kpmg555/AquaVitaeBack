@@ -39,9 +39,7 @@ public class RiesgoHidricoFacade implements RiesgoHidricoFacadePort {
     }
 
     @Override
-    public Map<String, Double> obtenerEvolucion7Dias() {
-        // Query: promedio diario del índice hídrico de los últimos 7 días
-        // para todas las plantas → da la línea de "Evolución del riesgo"
+    public Map<String, Float> obtenerEvolucion7Dias() {
         List<Object[]> resultados = em.createQuery(
                         "SELECT CAST(e.fechaRegistro AS date), AVG(e.indiceHidrico) " +
                                 "FROM EstadoPlantaEntity e " +
@@ -58,11 +56,10 @@ public class RiesgoHidricoFacade implements RiesgoHidricoFacadePort {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd MMM",
                 new Locale("es", "MX"));
 
-        Map<String, Double> evolucion = new LinkedHashMap<>();
+        Map<String, Float> evolucion = new LinkedHashMap<>();
         for (Object[] fila : resultados) {
-            // fila[0] = java.sql.Date, fila[1] = Double promedio
             LocalDate fecha = ((java.sql.Date) fila[0]).toLocalDate();
-            evolucion.put(fecha.format(fmt), (Double) fila[1]);
+            evolucion.put(fecha.format(fmt), (Float) fila[1]);
         }
         return evolucion;
     }

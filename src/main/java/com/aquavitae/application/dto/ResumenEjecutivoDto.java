@@ -7,6 +7,7 @@
 
 package com.aquavitae.application.dto;
 import java.util.List;
+import java.util.UUID;
 
 public class ResumenEjecutivoDto {
     protected KpisDto  kpis;
@@ -37,7 +38,7 @@ public class ResumenEjecutivoDto {
     }
 
     public static class PlantaMapaDto {
-        public Integer id;
+        public UUID id;
         public Float  latitud;
         public Float  longitud;
         public String  nivelRiesgo;
