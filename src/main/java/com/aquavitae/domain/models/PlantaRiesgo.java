@@ -1,63 +1,69 @@
 package com.aquavitae.domain.models;
 
-// Contiene reglas de negocio : "una planta con su estado de riesgo hídrico actual"
-//  No depende de ninguna capa externa
+import java.util.UUID;
 
 public class PlantaRiesgo {
-    private Integer idPlanta;
-    private String nombrePlanta;
-    private String nombreUbicacion;
-    private Float latitud;
-    private Float longitud;
-    private Float indiceHidrico;
-    private Boolean tieneAlertaActiva;
+        private Integer id;
+        private String nombre;
+        private String ubicacionNombre;  // "Monterrey, NL"
+        private Float latitud;
+        private Float longitud;
+        private Float indiceHidrico;    // valor actual 0.0–1.0
+        private Float indiceHace7Dias;  // para calcular tendencia
+        private Boolean tieneAlertaCritica;
 
-    public PlantaRiesgo() {}
+        public PlantaRiesgo() {}
 
-    public PlantaRiesgo(Integer idPlanta, String nombrePlanta,
-                        String nombreUbicacion, Float latitud,
-                        Float longitud, Float indiceHidrico,
-                        Boolean tieneAlertaActiva) {
-        this.idPlanta = idPlanta;
-        this.nombrePlanta = nombrePlanta;
-        this.nombreUbicacion = nombreUbicacion;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.indiceHidrico= indiceHidrico;
-        this.tieneAlertaActiva = tieneAlertaActiva;
-    }
+        // ── Reglas de negocio ────────────────────────────────────────
+        // Estas reglas viven aquí y NO en el usecase ni en el mapper,
+        // porque son invariantes del dominio: siempre que exista una
+        // PlantaRiesgo, estas reglas aplican.
+        // ─────────────────────────────────────────────────────────────
 
-    // Logica de negocio para calcular el nivel de riesgo hídrico basado en el índice hídrico
-    public String calcularNivelRiesgo() {
-        if (indiceHidrico == null) return "DESCONOCIDO";
-        if (indiceHidrico < 0.30) return "ALTO";
-        if (indiceHidrico < 0.60) return "MEDIO";
-        return "BAJO";
-    }
+        public NivelRiesgo getNivelRiesgo() {
+            // Delegamos al Strategy — ver ClasificadorRiesgoHidrico.
+            // El modelo NO conoce el Strategy directamente;
+            // el Strategy recibe el modelo como parámetro.
+            if (indiceHidrico == null) return NivelRiesgo.SIN_RIESGO;
+            if (indiceHidrico >= 0.75) return NivelRiesgo.ALTO;
+            if (indiceHidrico >= 0.45) return NivelRiesgo.MEDIO;
+            return NivelRiesgo.BAJO;
+        }
 
-    public String calcularColorSemaforo() {
-        return switch (calcularNivelRiesgo()) {
-            case "ALTO"  -> "rojo";
-            case "MEDIO" -> "amarillo";
-            case "BAJO"  -> "verde";
-            default  -> "gris";
-        };
+        public String getTendencia() {
+            return NivelRiesgo.calcularTendencia(indiceHidrico, indiceHace7Dias);
+        }
+
+    // Nivel actual como porcentaje para la barra de la vista
+    public Integer getNivelActualPct() {
+        if (indiceHidrico == null) return 0;
+        return (int) Math.round(indiceHidrico * 100);
     }
 
     //getters y setters
-    public Integer getIdPlanta()  { return idPlanta; }
-    public void setIdPlanta(Integer v) { this.idPlanta = v; }
-    public String getNombrePlanta()  { return nombrePlanta; }
-    public void setNombrePlanta(String v)  { this.nombrePlanta = v; }
-    public String getNombreUbicacion() { return nombreUbicacion; }
-    public void setNombreUbicacion(String v)  { this.nombreUbicacion = v; }
-    public Float getLatitud()  { return latitud; }
-    public void setLatitud(Float v)  { this.latitud = v; }
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getUbicacionNombre() { return ubicacionNombre; }
+    public void setUbicacionNombre(String ubicacionNombre) { this.ubicacionNombre = ubicacionNombre; }
+
+    public Float getLatitud() { return latitud; }
+    public void setLatitud(Float latitud) { this.latitud = latitud; }
+
     public Float getLongitud() { return longitud; }
-    public void setLongitud(Float v) { this.longitud = v; }
+    public void setLongitud(Float longitud) { this.longitud = longitud; }
+
     public Float getIndiceHidrico() { return indiceHidrico; }
-    public void setIndiceHidrico(Float v)  { this.indiceHidrico = v; }
-    public Boolean getTieneAlertaActiva()  { return tieneAlertaActiva; }
-    public void setTieneAlertaActiva(Boolean v){ this.tieneAlertaActiva = v; }
+    public void setIndiceHidrico(Float indiceHidrico) { this.indiceHidrico = indiceHidrico; }
+
+    public Float getIndiceHace7Dias() { return indiceHace7Dias; }
+    public void setIndiceHace7Dias(Float indiceHace7Dias) { this.indiceHace7Dias = indiceHace7Dias; }
+
+    public Boolean getTieneAlertaCritica() { return tieneAlertaCritica; }
+
+    public void setTieneAlertaCritica(Boolean tieneAlertaCritica) { this.tieneAlertaCritica = tieneAlertaCritica; }
 
 }
