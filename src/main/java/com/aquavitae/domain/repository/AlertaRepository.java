@@ -1,4 +1,5 @@
 package com.aquavitae.domain.repository;
+import com.aquavitae.domain.models.AlertaResumen;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import java.util.List;
 

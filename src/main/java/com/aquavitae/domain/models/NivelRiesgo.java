@@ -13,9 +13,9 @@ package com.aquavitae.domain.models;
 public class NivelRiesgo {
         public static NivelRiesgo fromString(String nivel) {
             return switch (nivel.toUpperCase()) {
-                case "ALTO"       -> ALTO;
-                case "MEDIO"      -> MEDIO;
-                case "BAJO"       -> BAJO;
+                case "ALTO"   -> ALTO;
+                case "MEDIO" -> MEDIO;
+                case "BAJO"   -> BAJO;
                 case "SIN_RIESGO" -> SIN_RIESGO;
                 default           -> throw new IllegalArgumentException("Nivel de riesgo desconocido: " + nivel);
             };
@@ -23,9 +23,9 @@ public class NivelRiesgo {
 
     public String getColor() {
         return switch (this) {
-            case ALTO      -> "rojo";
-            case MEDIO     -> "amarillo";
-            case BAJO      -> "verde";
+            case ALTO  -> "rojo";
+            case MEDIO -> "amarillo";
+            case BAJO  -> "verde";
             case SIN_RIESGO -> "gris";
         };
     }

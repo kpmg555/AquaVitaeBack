@@ -3,7 +3,7 @@ package com.aquavitae.domain.models;
 import java.util.UUID;
 
 public class PlantaRiesgo {
-        private Integer id;
+        private UUID id;
         private String nombre;
         private String ubicacionNombre;  // "Monterrey, NL"
         private Float latitud;
