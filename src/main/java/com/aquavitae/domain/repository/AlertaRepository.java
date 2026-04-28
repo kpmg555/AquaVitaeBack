@@ -4,8 +4,7 @@ import com.aquavitae.domain.models.PlantaRiesgo;
 import java.util.List;
 
 public interface AlertaRepository {
-    // Alertas críticas no archivadas (para el contador de crisis)
-    long contarCriticasActivas();
-    // Últimas N alertas para el panel de alertas recientes
+    long contarAltasActivas();
+    long contarMediasActivas();
     List<AlertaResumen> findRecientes(int limite);
 }

@@ -35,24 +35,24 @@ public class PlantaRepositoryImpl implements PlantaRepository,
         for (PlantaEntity planta : plantas) {
 
             // Query último índice hídrico (tiempo real)
-            Double indiceActual = em.createQuery(
+            Float indiceActual = em.createQuery(
                             "SELECT e.indiceHidrico FROM EstadoPlantaEntity e " +
                                     "WHERE e.idPlanta = :id " +
                                     "  AND e.tipoDato IN ('pronostico_openmeteo','pronostico_smn') " +
                                     "ORDER BY e.fechaRegistro DESC",
-                            Double.class)
+                            Float.class)
                     .setParameter("id", planta.getId())
                     .setMaxResults(1)
                     .getResultStream().findFirst().orElse(null);
 
             // Query C: índice de hace 7 días (para tendencia)
-            Double indiceHace7Dias = em.createQuery(
+            Float indiceHace7Dias = em.createQuery(
                             "SELECT e.indiceHidrico FROM EstadoPlantaEntity e " +
                                     "WHERE e.idPlanta = :id " +
                                     "  AND e.tipoDato IN ('pronostico_openmeteo','pronostico_smn') " +
                                     "  AND e.fechaRegistro <= :hace7dias " +
                                     "ORDER BY e.fechaRegistro DESC",
-                            Double.class)
+                            Float.class)
                     .setParameter("id", planta.getId())
                     .setParameter("hace7dias",
                             java.sql.Timestamp.valueOf(
