@@ -5,7 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import com.aquavitae.domain.models.PlantaRiesgo;
-import com.aquavitae.domain.repository.PlantaRepository;
 import com.aquavitae.infrastructure.entities.PlantaEntity;
 import com.aquavitae.infrastructure.mapper.PlantaRiesgoMapper;
 

@@ -11,7 +11,7 @@ import com.aquavitae.application.usecase.RiesgoHidricoFacadePort;
 import com.aquavitae.domain.models.AlertaResumen;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import com.aquavitae.domain.repository.AlertaRepository;
-import com.aquavitae.domain.repository.PlantaRepository;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
