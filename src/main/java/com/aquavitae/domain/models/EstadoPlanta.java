@@ -3,7 +3,6 @@
 // NO es una entidad JPA
 
 package com.aquavitae.domain.models;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,6 +19,19 @@ public class EstadoPlanta {
     private String unidadNivel;
 
     public EstadoPlanta() {}
+
+    public EstadoPlanta(UUID id, UUID idPlanta, LocalDateTime fechaRegistro, Float nivelAgua, Float indiceHidrico, Float umbral, Boolean eventoExtremo, String fuente, String tipoDato, String unidadNivel) {
+        this.id = id;
+        this.idPlanta = idPlanta;
+        this.fechaRegistro = fechaRegistro;
+        this.nivelAgua = nivelAgua;
+        this.indiceHidrico = indiceHidrico;
+        this.umbral = umbral;
+        this.eventoExtremo = eventoExtremo;
+        this.fuente = fuente;
+        this.tipoDato = tipoDato;
+        this.unidadNivel = unidadNivel;
+    }
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }

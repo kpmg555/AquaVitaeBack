@@ -16,6 +16,17 @@ public class Planta {
 
     public Planta() {}
 
+    public Planta(UUID id, String nombre, Float latitud, Float longitud, Float umbralAlerta, UUID idEmpresa, UUID idEstadoSmn, UUID idMunicipioSmn) {
+        this.id = id;
+        this.nombre = nombre;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.umbralAlerta = umbralAlerta;
+        this.idEmpresa = idEmpresa;
+        this.idEstadoSmn = idEstadoSmn;
+        this.idMunicipioSmn = idMunicipioSmn;
+    }
+
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
 

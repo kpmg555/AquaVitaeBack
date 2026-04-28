@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import com.aquavitae.application.usecase.RiesgoHidricoFacadePort;
-import com.aquavitae.domain.models.AlertaResumen;
+import com.aquavitae.domain.models.Alerta;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import com.aquavitae.domain.repository.AlertaRepository;
 
@@ -34,7 +34,7 @@ public class RiesgoHidricoFacade implements RiesgoHidricoFacadePort {
     }
 
     @Override
-    public List<AlertaResumen> obtenerAlertasRecientes(int limite) {
+    public List<Alerta> obtenerAlertasRecientes(int limite) {
         return alertaRepository.findRecientes(limite);
     }
 
