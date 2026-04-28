@@ -1,0 +1,76 @@
+package com.aquavitae.infrastructure.entities;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "Alerta")
+public class AlertaEntity {
+
+    @Id
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36)
+    private UUID id;
+
+    @Column(name = "id_planta", nullable = false)
+    private Integer idPlanta;
+
+    // 'CRÍTICO' | 'ADVERTENCIA' | 'INFORMATIVO'
+    @Column(nullable = false, length = 50)
+    private String tipo;
+
+    @Column(nullable = false, length = 200)
+    private String titulo;
+
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "nivel_actual")
+    private Float nivelActual;
+
+    private Float umbral;
+
+    @Column(length = 100)
+    private String tendencia;
+
+    @Column(nullable = false)
+    private LocalDateTime fecha;
+
+    public AlertaEntity() {}
+
+    public UUID getId() {return id;}
+    public void setId(UUID id) {this.id = id;}
+
+    public Integer getIdPlanta() {return idPlanta;}
+    public void setIdPlanta(Integer idPlanta) {this.idPlanta = idPlanta;}
+
+    public String getTipo() {return tipo;}
+    public void setTipo(String tipo) {this.tipo = tipo;}
+
+    public String getTitulo() {return titulo;}
+    public void setTitulo(String titulo) {this.titulo = titulo;}
+
+    public String getDescripcion() {return descripcion;}
+    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
+
+    public Float getNivelActual() {return nivelActual;}
+    public void setNivelActual(Float nivelActual) {this.nivelActual = nivelActual;}
+
+    public Float getUmbral() {return umbral;}
+    public void setUmbral(Float umbral) {this.umbral = umbral;}
+
+    public String getTendencia() {return tendencia;}
+    public void setTendencia(String tendencia) {this.tendencia = tendencia;}
+
+    public LocalDateTime getFecha() {return fecha;}
+    public void setFecha(LocalDateTime fecha) {this.fecha = fecha;}
+}
