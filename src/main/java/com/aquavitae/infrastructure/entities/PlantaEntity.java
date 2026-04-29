@@ -1,16 +1,14 @@
 package com.aquavitae.infrastructure.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Planta")
 public class PlantaEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 300)
@@ -30,7 +28,7 @@ public class PlantaEntity {
     private Boolean activa = true;
 
     @Column(name = "umbral_alerta")
-    private Float umbralAlerta = 0.75F;
+    private Float umbralAlerta = 0.75f;
 
     @Column(name = "costo_cierre_mxn", precision = 15, scale = 2)
     private BigDecimal costoCierreMxn;
@@ -49,8 +47,6 @@ public class PlantaEntity {
 
     @Column(name = "fuente_costos", length = 100)
     private String fuenteCostos;
-
-    public PlantaEntity() {}
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
