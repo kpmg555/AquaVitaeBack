@@ -10,9 +10,9 @@ public class PlantaRiesgo {
     private float indiceHidrico;
     private String nivelRiesgo;
 
-    public PlantaRiesgo(UUID id, String nombrePlanta,
-                           float latitud, float longitud,
-                           float indiceHidrico, String nivelRiesgo) {
+    public PlantaRiesgo(Integer id, String nombrePlanta,
+                        float latitud, float longitud,
+                        float indiceHidrico, String nivelRiesgo) {
         this.id = id;
         this.nombrePlanta = nombrePlanta;
         this.latitud = latitud;
