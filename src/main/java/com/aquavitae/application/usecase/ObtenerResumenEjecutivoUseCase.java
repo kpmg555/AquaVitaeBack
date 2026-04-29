@@ -12,7 +12,7 @@ package com.aquavitae.application.usecase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import com.aquavitae.application.dto.ResumenEjecutivoDto;
-import com.aquavitae.domain.models.Alerta;
+import com.aquavitae.domain.models.AlertaDominio;
 import com.aquavitae.domain.models.NivelRiesgo;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import com.aquavitae.domain.service.ClasificadorRiesgoStrategy;
@@ -35,7 +35,7 @@ public class ObtenerResumenEjecutivoUseCase {
         //  Obtener datos via Facade
         List<PlantaRiesgo> plantas = facade.obtenerPlantasConRiesgo();
         long crisisActivas         = facade.contarCrisisActivas();
-        List<Alerta> alertas = facade.obtenerAlertasRecientes(3);
+        List<AlertaDominio> alertas = facade.obtenerAlertasRecientes(3);
         Map<String, Float> evolucion = facade.obtenerEvolucion7Dias();
 
         // Clasificar plantas con Strategy
@@ -120,7 +120,7 @@ public class ObtenerResumenEjecutivoUseCase {
         }).collect(Collectors.toList());
     }
 
-    private List<ResumenEjecutivoDto.AlertaDto> buildAlertas(List<Alerta> alertas) {
+    private List<ResumenEjecutivoDto.AlertaDto> buildAlertas(List<AlertaDominio> alertas) {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("hh:mm a",
                 new Locale("es", "MX"));
         return alertas.stream().map(a -> {

@@ -1,7 +1,7 @@
 package com.aquavitae.domain.repository;
-import com.aquavitae.domain.models.Alerta;
+import com.aquavitae.domain.models.AlertaDominio;
 
 
 public interface AlertaRepository {
-    Alerta save(Alerta alerta);
+    AlertaDominio save(AlertaDominio alerta);
 }

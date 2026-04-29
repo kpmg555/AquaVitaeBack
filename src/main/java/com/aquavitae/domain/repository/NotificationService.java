@@ -3,8 +3,8 @@
 
 package com.aquavitae.domain.repository;
 
-import com.aquavitae.domain.models.Alerta;
+import com.aquavitae.domain.models.AlertaDominio;
 
 public interface NotificationService {
-    void notificar(Alerta alerta);
+    void notificar(AlertaDominio alerta);
 }

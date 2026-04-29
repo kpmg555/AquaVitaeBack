@@ -4,7 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import com.aquavitae.domain.models.Alerta;
+import com.aquavitae.domain.models.AlertaDominio;
 import com.aquavitae.domain.repository.AlertaRepository;
 import com.aquavitae.infrastructure.entities.AlertaEntity;
 import com.aquavitae.infrastructure.mapper.AlertaMapper;
@@ -34,7 +34,7 @@ public class AlertaRepositoryImpl implements AlertaRepository, PanacheRepository
 
 
     @Override
-    public List<Alerta> findRecientes(int limite) {
+    public List<AlertaDominio> findRecientes(int limite) {
         return em.createQuery(
                         "SELECT a FROM AlertaEntity a ORDER BY a.fecha DESC",
                         AlertaEntity.class)

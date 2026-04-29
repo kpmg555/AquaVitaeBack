@@ -4,7 +4,7 @@
 
 
 package com.aquavitae.application.usecase;
-import com.aquavitae.domain.models.Alerta;
+import com.aquavitae.domain.models.AlertaDominio;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,6 @@ import java.util.Map;
 public interface RiesgoHidricoFacadePort {
     List<PlantaRiesgo> obtenerPlantasConRiesgo();
     long contarCrisisActivas();
-    List<Alerta> obtenerAlertasRecientes(int limite);
+    List<AlertaDominio> obtenerAlertasRecientes(int limite);
     Map<String, Float> obtenerEvolucion7Dias();
 }
