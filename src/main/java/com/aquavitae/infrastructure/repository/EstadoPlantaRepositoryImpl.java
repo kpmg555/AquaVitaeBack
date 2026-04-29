@@ -7,23 +7,28 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.aquavitae.domain.repository.EstadoPlantaRepository;
 import com.aquavitae.infrastructure.entities.*;
+
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @ApplicationScoped
-public class EstadoPlantaRepositoryImpl implements EstadoPlantaRepository, PanacheRepositoryBase<EstadoPlantaEntity, Integer> {
+public abstract class EstadoPlantaRepositoryImpl implements EstadoPlantaRepository, PanacheRepositoryBase<EstadoPlantaEntity, Integer> {
 
     @Inject
     EntityManager em;
 
     @Override
     @Transactional
-    public void guardarEstado(UUID plantaId, float indiceHidrico, LocalDateTime fecha) {
+    public void guardarEstado(int plantaId, float indiceHidrico, LocalDateTime fecha) {
+
         EstadoPlantaEntity estado = new EstadoPlantaEntity();
         PlantaEntity plantaRef = em.getReference(PlantaEntity.class, plantaId);
+
         estado.setPlanta(plantaRef);
         estado.setIndiceHidrico(indiceHidrico);
         estado.setFechaRegistro(fecha);
+        estado.setTipoDato("pronostico_openmeteo");
+        estado.setNivelAgua(indiceHidrico * 100);
+
         persist(estado);
     }
 }
