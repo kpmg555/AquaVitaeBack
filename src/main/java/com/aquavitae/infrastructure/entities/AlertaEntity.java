@@ -22,7 +22,6 @@ public class AlertaEntity {
     @Column(name = "id_planta", nullable = false)
     private Integer idPlanta;
 
-    // 'CRÍTICO' | 'ADVERTENCIA' | 'INFORMATIVO'
     @Column(nullable = false, length = 50)
     private String tipo;
 
