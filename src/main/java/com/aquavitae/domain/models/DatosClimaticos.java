@@ -3,28 +3,53 @@ package com.aquavitae.domain.models;
 import java.util.UUID;
 
 public class DatosClimaticos {
-        private UUID id;
-        private float precipitacionMm;
-        private float  humedadSuelo;
-        private float evapotranspiracion;
 
-        public DatosClimaticos(UUID id, float precipitacionMm,
-                               float humedadSuelo, float evapotranspiracion) {
-            this.id = id;
-            this.precipitacionMm = precipitacionMm;
-            this.humedadSuelo = humedadSuelo;
-            this.evapotranspiracion = evapotranspiracion;
-        }
+    //final porque no se pueden modificar los datos climáticos una vez creados,
+    private final UUID id;
+    private final float precipitacionMm;
+    private final float humedadSuelo0_1;
+    private final float humedadSuelo1_3;
+    private final float humedadSuelo3_9;
+    private final float humedadSuelo;
+    private final float evapotranspiracion;
+    private final float temperatura;
 
-        public UUID getId() {return id;}
-        public void setId(UUID id) {this.id = id;}
+    public DatosClimaticos(UUID id,
+                           float precipitacionMm,
+                           float humedadSuelo0_1,
+                           float humedadSuelo1_3,
+                           float humedadSuelo3_9,
+                           float evapotranspiracion,
+                           float temperatura) {
 
-        public float getPrecipitacionMm() {return precipitacionMm;}
-        public void setPrecipitacionMm(float precipitacionMm) {this.precipitacionMm = precipitacionMm;}
+        this.id = id;
+        this.precipitacionMm = precipitacionMm;
+        this.humedadSuelo0_1 = humedadSuelo0_1;
+        this.humedadSuelo1_3 = humedadSuelo1_3;
+        this.humedadSuelo3_9 = humedadSuelo3_9;
+        this.evapotranspiracion = evapotranspiracion;
+        this.temperatura = temperatura;
 
-        public float getHumedadSuelo() {return humedadSuelo;}
-        public void setHumedadSuelo(float humedadSuelo) {this.humedadSuelo = humedadSuelo;}
+        this.humedadSuelo = (
+                humedadSuelo0_1 +
+                        humedadSuelo1_3 +
+                        humedadSuelo3_9
+        ) / 3f;
+    }
 
-        public float getEvapotranspiracion() {return evapotranspiracion;}
-        public void setEvapotranspiracion(float evapotranspiracion) {this.evapotranspiracion = evapotranspiracion;}
+    public UUID getId() { return id; }
+
+    public float getPrecipitacionMm() { return precipitacionMm; }
+
+    public float getHumedadSuelo0_1() { return humedadSuelo0_1; }
+
+    public float getHumedadSuelo1_3() { return humedadSuelo1_3; }
+
+    public float getHumedadSuelo3_9() { return humedadSuelo3_9; }
+
+    public float getHumedadSuelo() { return humedadSuelo; }
+
+    public float getEvapotranspiracion() { return evapotranspiracion; }
+
+    public float getTemperatura() { return temperatura; }
 }
