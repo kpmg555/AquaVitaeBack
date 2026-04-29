@@ -1,7 +1,8 @@
 package com.aquavitae.domain.repository;
 import com.aquavitae.domain.models.AlertaDominio;
-
+import java.util.List;
 
 public interface AlertaRepository {
-    AlertaDominio save(AlertaDominio alerta);
+    List<AlertaDominio> findRecientes(int limit);
+    void save(AlertaDominio alerta);
 }
