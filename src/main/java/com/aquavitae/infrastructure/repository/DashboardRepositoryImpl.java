@@ -5,9 +5,9 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import com.aquavitae.domain.models.DashboardRiesgo;
 import com.aquavitae.domain.models.PlantaRiesgo;
-import com.aquavitae.domain.models.ResumenRiesgo;
 import com.aquavitae.domain.repository.DashboardRepository;
 import com.aquavitae.infrastructure.entities.*;
+import com.aquavitae.infrastructure.mapper.DashboardMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +19,7 @@ public class DashboardRepositoryImpl implements DashboardRepository {
 
     @Override
     public DashboardRiesgo obtenerDashboard() {
+        // JPQL con JOIN a ubicación y subconsulta para el último estado
         String jpql = """
             SELECT p, u, ep.indiceHidrico
             FROM PlantaEntity p
@@ -32,34 +33,16 @@ public class DashboardRepositoryImpl implements DashboardRepository {
             WHERE p.activa = true
             """;
 
-        List<Object[]> filas = em.createQuery(jpql, Object[].class).getResultList();
+        List<Object[]> rows = em.createQuery(jpql, Object[].class).getResultList();
 
-        List<PlantaRiesgo> plantas = filas.stream().map(row -> {
-            PlantaEntity planta = (PlantaEntity) row[0];
-            UbicacionEntity ubicacion = (UbicacionEntity) row[1];
-            float indice = (float)row[2];
-            String nivel = clasificarRiesgo(indice);
+        List<PlantaRiesgo> plantas = rows.stream()
+                .map(row -> DashboardMapper.toPlantaConRiesgo(
+                        (PlantaEntity) row[0],
+                        (UbicacionEntity) row[1],
+                        (Float) row[2]
+                ))
+                .collect(Collectors.toList());
 
-            return new PlantaRiesgo(
-                    planta.getId(),
-                    planta.getNombre(),
-                    ubicacion.getLatitud(),
-                    ubicacion.getLongitud(),
-                    indice,
-                    nivel
-            );
-        }).collect(Collectors.toList());
-
-        long alto = plantas.stream().filter(p -> "ALTO".equals(p.getNivelRiesgo())).count();
-        long medio = plantas.stream().filter(p -> "MEDIO".equals(p.getNivelRiesgo())).count();
-        long bajo = plantas.stream().filter(p -> "BAJO".equals(p.getNivelRiesgo())).count();
-
-        return new DashboardRiesgo(plantas, new ResumenRiesgo(alto, medio, bajo));
-    }
-
-    private String clasificarRiesgo(double indice) {
-        if (indice <= 0.3) return "ALTO";
-        if (indice <= 0.6) return "MEDIO";
-        return "BAJO";
+        return DashboardMapper.toDashboardRiesgo(plantas);
     }
 }
