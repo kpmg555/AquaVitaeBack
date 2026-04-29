@@ -1,5 +1,6 @@
 package com.aquavitae.infrastructure.repository;
 
+import com.aquavitae.infrastructure.mapper.AlertaMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -18,8 +19,7 @@ public class AlertaRepositoryImpl implements AlertaRepository, PanacheRepository
         List<AlertaEntity> entities = find("ORDER BY fecha DESC")
                 .page(0, limit).list();
         return entities.stream()
-                .map(e -> new AlertaDominio(e.getId(), e.getTipo(), e.getTitulo(),
-                        e.getDescripcion(), e.getNivelActual(), e.getFecha()))
+                .map(AlertaMapper::toDomain)
                 .collect(Collectors.toList());
     }
 

@@ -3,13 +3,13 @@ package com.aquavitae.infrastructure.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import com.aquavitae.domain.models.UbicacionClima;
-import com.aquavitae.domain.repository.PlantaQueryRepository;
+import com.aquavitae.domain.repository.PlantaRepository;
 import com.aquavitae.infrastructure.entities.PlantaEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class PlantaRepositoryImpl implements PlantaQueryRepository, PanacheRepositoryBase<PlantaEntity, Integer> {
+public class PlantaRepositoryImpl implements PlantaRepository, PanacheRepositoryBase<PlantaEntity, Integer> {
 
     @Override
     public List<UbicacionClima> obtenerUbicacionesActivas() {
@@ -22,10 +22,5 @@ public class PlantaRepositoryImpl implements PlantaQueryRepository, PanacheRepos
                         p.getUbicacion().getElevation() != null ? p.getUbicacion().getElevation() : 0
                 ))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Planta> findAllActivas() {
-        return List.of();
     }
 }
