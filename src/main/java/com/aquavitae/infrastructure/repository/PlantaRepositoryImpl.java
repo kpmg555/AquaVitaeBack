@@ -1,6 +1,5 @@
 package com.aquavitae.infrastructure.repository;
 
-import com.aquavitae.domain.models.Planta;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import com.aquavitae.domain.models.UbicacionClima;

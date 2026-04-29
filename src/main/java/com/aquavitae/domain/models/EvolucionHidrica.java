@@ -15,8 +15,8 @@ public class EvolucionHidrica {
         public void setPuntos(List<PuntoDiario> puntos) { this.puntos = puntos; }
 
         public static class PuntoDiario {
-            private LocalDate fecha;
-            private float valorPromedio;
+            private final LocalDate fecha;
+            private final float valorPromedio;
 
             public PuntoDiario(LocalDate fecha, float valorPromedio) {
                 this.fecha = fecha;
@@ -24,9 +24,7 @@ public class EvolucionHidrica {
             }
 
             public LocalDate getFecha() { return fecha; }
-            public void setFecha(LocalDate fecha) { this.fecha = fecha; }
 
             public float getValorPromedio() { return valorPromedio; }
-            public void setValorPromedio(float valorPromedio) { this.valorPromedio = valorPromedio; }
         }
 }

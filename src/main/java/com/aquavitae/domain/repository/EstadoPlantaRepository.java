@@ -2,11 +2,9 @@
 
 package com.aquavitae.domain.repository;
 
-import com.aquavitae.domain.models.EstadoPlanta;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 

@@ -1,11 +1,9 @@
 package com.aquavitae.domain.models;
 
-import java.util.UUID;
-
 public class DatosClimaticos {
 
     //final porque no se pueden modificar los datos climáticos una vez creados,
-    private final UUID id;
+    private final Integer id;
     private final float precipitacionMm;
     private final float humedadSuelo0_1;
     private final float humedadSuelo1_3;
@@ -14,7 +12,7 @@ public class DatosClimaticos {
     private final float evapotranspiracion;
     private final float temperatura;
 
-    public DatosClimaticos(UUID id,
+    public DatosClimaticos(Integer id,
                            float precipitacionMm,
                            float humedadSuelo0_1,
                            float humedadSuelo1_3,
@@ -37,7 +35,7 @@ public class DatosClimaticos {
         ) / 3f;
     }
 
-    public UUID getId() { return id; }
+    public Integer getId() { return id; }
 
     public float getPrecipitacionMm() { return precipitacionMm; }
 

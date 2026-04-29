@@ -1,9 +1,7 @@
-package com.aquavitae.domain.models.;
-
-import java.util.UUID;
+package com.aquavitae.domain.models;
 
 public class PlantaRiesgo {
-    private UUID id;
+    private Integer id;
     private String nombrePlanta;
     private float latitud;
     private float longitud;
@@ -21,8 +19,8 @@ public class PlantaRiesgo {
         this.nivelRiesgo = nivelRiesgo;
     }
 
-    public UUID getId() {return id;}
-    public void setId(UUID id) { this.id = id; }
+    public Integer getId() {return id;}
+    public void setId(Integer id) { this.id = id; }
 
     public String getNombrePlanta() { return nombrePlanta; }
     public void setNombrePlanta(String nombrePlanta) { this.nombrePlanta = nombrePlanta; }

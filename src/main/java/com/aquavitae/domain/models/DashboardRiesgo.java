@@ -4,8 +4,8 @@ import java.util.List;
 
 public class DashboardRiesgo {
 
-        private List<PlantaRiesgo> plantas;
-        private ResumenRiesgo resumen;
+        private final List<PlantaRiesgo> plantas;
+        private  final ResumenRiesgo resumen;
 
         public DashboardRiesgo(List<PlantaRiesgo> plantas, ResumenRiesgo resumen) {
             this.plantas = plantas;
@@ -13,9 +13,6 @@ public class DashboardRiesgo {
         }
 
         public List<PlantaRiesgo> getPlantas() {return plantas;}
-        public void setPlantas(List<PlantaRiesgo> plantas) {this.plantas = plantas;}
 
         public ResumenRiesgo getResumen() {return resumen;}
-        public void setResumen(ResumenRiesgo resumen) {this.resumen = resumen;}
-
 }

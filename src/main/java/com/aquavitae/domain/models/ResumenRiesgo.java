@@ -15,5 +15,4 @@ public class ResumenRiesgo {
         public long getAlto() { return alto; }
         public long getMedio() { return medio; }
         public long getBajo() { return bajo; }
-
 }

@@ -1,17 +1,16 @@
 package com.aquavitae.domain.models;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class AlertaDominio {
-    private UUID id;
+    private Integer id;
     private String tipo;
     private String titulo;
     private String descripcion;
     private float nivelActual;
     private LocalDateTime fecha;
 
-    public AlertaDominio(UUID id, String tipo, String titulo,
+    public AlertaDominio(Integer id, String tipo, String titulo,
                          String descripcion, float nivelActual, LocalDateTime fecha) {
         this.id = id;
         this.tipo = tipo;
@@ -21,8 +20,8 @@ public class AlertaDominio {
         this.fecha = fecha;
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
