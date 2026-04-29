@@ -9,6 +9,8 @@ import com.aquavitae.domain.models.UbicacionClima;
 import java.util.List;
 
 public interface PlantaQueryRepository {
+    List<UbicacionClima> obtenerUbicacionesActivas();
+
     List<Planta> findAllActivas();
 }
 

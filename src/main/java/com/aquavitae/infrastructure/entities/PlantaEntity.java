@@ -1,14 +1,6 @@
 package com.aquavitae.infrastructure.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -32,7 +24,6 @@ public class PlantaEntity {
     @Column(name = "id_region")
     private Integer idRegion;
 
-    // Carga LAZY: solo se carga cuando se accede a ubicacion.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ubicacion")
     private UbicacionEntity ubicacion;
@@ -63,42 +54,42 @@ public class PlantaEntity {
 
     public PlantaEntity() {}
 
-    public UUID getId() {return id;}
-    public void setId(UUID id) {this.id = id;}
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    public String getNombre() {return nombre;}
-    public void setNombre(String nombre) {this.nombre = nombre;}
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public Integer getIdEmpresa() {return idEmpresa;}
-    public void setIdEmpresa(Integer idEmpresa) {this.idEmpresa = idEmpresa;}
+    public Integer getIdEmpresa() { return idEmpresa; }
+    public void setIdEmpresa(Integer idEmpresa) { this.idEmpresa = idEmpresa; }
 
-    public Integer getIdRegion() {return idRegion;}
-    public void setIdRegion(Integer idRegion) {this.idRegion = idRegion;}
+    public Integer getIdRegion() { return idRegion; }
+    public void setIdRegion(Integer idRegion) { this.idRegion = idRegion; }
 
-    public UbicacionEntity getUbicacion() {return ubicacion;}
-    public void setUbicacion(UbicacionEntity ubicacion) {this.ubicacion = ubicacion;}
+    public UbicacionEntity getUbicacion() { return ubicacion; }
+    public void setUbicacion(UbicacionEntity ubicacion) { this.ubicacion = ubicacion; }
 
-    public Boolean getActiva() {return activa;}
-    public void setActiva(Boolean activa) {this.activa = activa;}
+    public Boolean getActiva() { return activa; }
+    public void setActiva(Boolean activa) { this.activa = activa; }
 
-    public Float getUmbralAlerta() {return umbralAlerta;}
-    public void setUmbralAlerta(Float umbralAlerta) {this.umbralAlerta = umbralAlerta;}
+    public Float getUmbralAlerta() { return umbralAlerta; }
+    public void setUmbralAlerta(Float umbralAlerta) { this.umbralAlerta = umbralAlerta; }
 
-    public BigDecimal getCostoCierreMxn() {return costoCierreMxn;}
-    public void setCostoCierreMxn(BigDecimal costoCierreMxn) {this.costoCierreMxn = costoCierreMxn;}
+    public BigDecimal getCostoCierreMxn() { return costoCierreMxn; }
+    public void setCostoCierreMxn(BigDecimal costoCierreMxn) { this.costoCierreMxn = costoCierreMxn; }
 
-    public BigDecimal getCostoAperturaMxn() {return costoAperturaMxn;}
-    public void setCostoAperturaMxn(BigDecimal costoAperturaMxn) {this.costoAperturaMxn = costoAperturaMxn;}
+    public BigDecimal getCostoAperturaMxn() { return costoAperturaMxn; }
+    public void setCostoAperturaMxn(BigDecimal costoAperturaMxn) { this.costoAperturaMxn = costoAperturaMxn; }
 
-    public BigDecimal getCostoOperacionDiariaMxn() {return costoOperacionDiariaMxn;}
-    public void setCostoOperacionDiariaMxn(BigDecimal costoOperacionDiariaMxn) {this.costoOperacionDiariaMxn = costoOperacionDiariaMxn;}
+    public BigDecimal getCostoOperacionDiariaMxn() { return costoOperacionDiariaMxn; }
+    public void setCostoOperacionDiariaMxn(BigDecimal costoOperacionDiariaMxn) { this.costoOperacionDiariaMxn = costoOperacionDiariaMxn; }
 
-    public Integer getDiasReaperturaMin() {return diasReaperturaMin;}
-    public void setDiasReaperturaMin(Integer diasReaperturaMin) {this.diasReaperturaMin = diasReaperturaMin;}
+    public Integer getDiasReaperturaMin() { return diasReaperturaMin; }
+    public void setDiasReaperturaMin(Integer diasReaperturaMin) { this.diasReaperturaMin = diasReaperturaMin; }
 
-    public Integer getDiasReaperturaMax() {return diasReaperturaMax;}
-    public void setDiasReaperturaMax(Integer diasReaperturaMax) {this.diasReaperturaMax = diasReaperturaMax;}
+    public Integer getDiasReaperturaMax() { return diasReaperturaMax; }
+    public void setDiasReaperturaMax(Integer diasReaperturaMax) { this.diasReaperturaMax = diasReaperturaMax; }
 
-    public String getFuenteCostos() {return fuenteCostos;}
-    public void setFuenteCostos(String fuenteCostos) {this.fuenteCostos = fuenteCostos;}
+    public String getFuenteCostos() { return fuenteCostos; }
+    public void setFuenteCostos(String fuenteCostos) { this.fuenteCostos = fuenteCostos; }
 }
