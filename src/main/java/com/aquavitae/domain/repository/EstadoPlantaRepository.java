@@ -3,6 +3,7 @@
 package com.aquavitae.domain.repository;
 
 import com.aquavitae.domain.models.EstadoPlanta;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,4 +13,7 @@ import java.util.UUID;
 public interface EstadoPlantaRepository {
 
     void saveAll(UUID plantaId, double indice, LocalDateTime now);
+
+    @Transactional
+    void guardarEstado(int plantaId, double indiceHidrico, LocalDateTime fecha);
 }

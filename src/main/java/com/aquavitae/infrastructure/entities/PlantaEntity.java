@@ -11,9 +11,7 @@ import java.util.UUID;
 @Table(name = "Planta")
 public class PlantaEntity {
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    private Integer id;
 
     @Column(nullable = false, length = 300)
     private String nombre;
@@ -54,8 +52,8 @@ public class PlantaEntity {
 
     public PlantaEntity() {}
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

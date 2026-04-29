@@ -1,24 +1,19 @@
 package com.aquavitae.infrastructure.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
-import java.util.UUID;
 
 @Entity
 @Table(name = "Estado_Planta")
 public class EstadoPlantaEntity {
 
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "id_planta", nullable = false)
     private Integer idPlanta;
@@ -51,8 +46,8 @@ public class EstadoPlantaEntity {
 
     public EstadoPlantaEntity() {}
 
-    public UUID getId() {return id;}
-    public void setId(UUID id) {this.id = id;}
+    public Integer getId() {return id;}
+    public void setId(Integer id) {this.id = id;}
 
     public Integer getIdPlanta() {return idPlanta;}
     public void setIdPlanta(Integer idPlanta) {this.idPlanta = idPlanta;}

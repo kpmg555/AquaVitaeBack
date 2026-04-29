@@ -13,9 +13,7 @@ import java.util.UUID;
 @Table(name = "Ubicacion")
 public class UbicacionEntity {
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36)
-    private UUID id;
+    private Integer id;
 
     @Column(name = "location_id", unique = true)
     private Integer locationId;
@@ -39,8 +37,8 @@ public class UbicacionEntity {
 
     public UbicacionEntity() {}
 
-    public UUID getId() {return id;}
-    public void setId(UUID id) {this.id = id;}
+    public Integer getId() {return id;}
+    public void setId(Integer id) {this.id = id;}
 
     public Integer getLocationId() {return locationId;}
     public void setLocationId(Integer locationId) {this.locationId = locationId;}
