@@ -1,9 +1,10 @@
 package com.aquavitae.domain.ports;
 
 import com.aquavitae.domain.models.DatosClimaticos;
-import com.aquavitae.domain.models.UbicacionClima;
+import com.aquavitae.domain.models.Planta;
+
 import java.util.List;
 
 public interface FuenteClimaPort {
-    List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones);
+    List<DatosClimaticos> obtenerDatos(List<Planta> ubicaciones);
 }
