@@ -11,7 +11,6 @@ package com.aquavitae.application.usecase;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import com.aquavitae.application.dto.ResumenEjecutivoDto;
 import com.aquavitae.domain.models.AlertaDominio;
 import com.aquavitae.domain.models.NivelRiesgo;
 import com.aquavitae.domain.models.PlantaRiesgo;
