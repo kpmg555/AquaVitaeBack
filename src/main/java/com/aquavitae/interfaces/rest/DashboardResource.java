@@ -1,7 +1,6 @@
 package com.aquavitae.interfaces.rest;
 
 
-import com.aquavitae.application.usecase.ObtenerResumenEjecutivoUseCase;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

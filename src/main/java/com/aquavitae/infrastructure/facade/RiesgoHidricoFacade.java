@@ -7,7 +7,6 @@ package com.aquavitae.infrastructure.facade;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import com.aquavitae.application.usecase.RiesgoHidricoFacadePort;
 import com.aquavitae.domain.models.AlertaDominio;
 import com.aquavitae.domain.models.PlantaRiesgo;
 import com.aquavitae.domain.repository.AlertaRepository;
