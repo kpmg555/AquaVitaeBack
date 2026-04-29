@@ -33,14 +33,14 @@ public class DashboardRiesgoDto {
     }
 
     public static class PlantaRiesgoDto {
-        private final UUID id;
+        private final Integer id;
         private final String nombre;
         private final float latitud;
         private final float longitud;
         private final float indiceHidrico;
         private final String nivelRiesgo;
 
-        public PlantaRiesgoDto(UUID id, String nombre, float latitud,
+        public PlantaRiesgoDto(Integer id, String nombre, float latitud,
                                float longitud, float indiceHidrico, String nivelRiesgo) {
             this.id= id;
             this.nombre = nombre;
@@ -50,7 +50,7 @@ public class DashboardRiesgoDto {
             this.nivelRiesgo = nivelRiesgo;
         }
 
-        public UUID getIdPlanta() { return id; }
+        public Integer getIdPlanta() { return id; }
         public String getNombrePlanta() { return nombre; }
         public float getLatitud() { return latitud; }
         public float getLongitud() { return longitud; }
