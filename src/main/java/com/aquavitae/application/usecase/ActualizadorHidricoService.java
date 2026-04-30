@@ -8,7 +8,6 @@ import com.aquavitae.domain.models.*;
 import com.aquavitae.domain.ports.FuenteClimaPort;
 import com.aquavitae.domain.ports.NotificacionPort;
 import com.aquavitae.domain.repository.AlertaRepository;
-import com.aquavitae.domain.repository.EstadoPlantaRepository;
 import com.aquavitae.domain.repository.PlantaRepository;
 import com.aquavitae.domain.service.CalcularIndiceHidrico;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
