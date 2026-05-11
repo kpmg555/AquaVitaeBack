@@ -1,7 +1,7 @@
 package com.aquavitae.interfaces.rest;
 
 import com.aquavitae.application.usecase.VerifyFirebaseTokenUseCase;
-import com.aquavitae.domain.model.AuthenticatedUser;
+import com.aquavitae.domain.models.AuthenticatedUser;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;

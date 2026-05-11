@@ -1,4 +1,4 @@
-package com.aquavitae.domain.model;
+package com.aquavitae.domain.models;
 
 public class AuthenticatedUser {
 

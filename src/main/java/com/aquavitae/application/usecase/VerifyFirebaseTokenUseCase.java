@@ -1,6 +1,6 @@
 package com.aquavitae.application.usecase;
 
-import com.aquavitae.domain.model.AuthenticatedUser;
+import com.aquavitae.domain.models.AuthenticatedUser;
 import com.aquavitae.domain.ports.TokenVerifierPort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
