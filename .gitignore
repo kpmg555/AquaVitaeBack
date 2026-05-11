@@ -44,4 +44,8 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 
-src/main/resources/todogrupo2-dd9dd-firebase-adminsdk-fbsvc-df883834d9.json
+src/main/resources/aquavitae-76bfa-firebase-adminsdk-fbsvc-56778c9f37.json
+
+src/main/resources/*.json
+
+aquavitae-76bfa-firebase-adminsdk-fbsvc-56778c9f37.json
