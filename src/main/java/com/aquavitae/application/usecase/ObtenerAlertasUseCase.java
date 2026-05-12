@@ -21,6 +21,7 @@ public class ObtenerAlertasUseCase {
                         a.getTitulo(),
                         a.getDescripcion(),
                         a.getNivelActual(),
+                        a.getUmbral(),
                         a.getFecha()))
                 .collect(Collectors.toList());
     }

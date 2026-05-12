@@ -7,19 +7,23 @@ public class PlantaRiesgo {
     private float longitud;
     private float indiceHidrico;
     private String nivelRiesgo;
+    private String ubicacionNombre;       // NUEVO
 
     public PlantaRiesgo(Integer id, String nombrePlanta,
                         float latitud, float longitud,
-                        float indiceHidrico, String nivelRiesgo) {
+                        float indiceHidrico, String nivelRiesgo,
+                        String ubicacionNombre) {
         this.id = id;
         this.nombrePlanta = nombrePlanta;
         this.latitud = latitud;
         this.longitud = longitud;
         this.indiceHidrico = indiceHidrico;
         this.nivelRiesgo = nivelRiesgo;
+        this.ubicacionNombre = ubicacionNombre;
     }
 
-    public Integer getId() {return id;}
+    // Getters & setters (incluir el nuevo)
+    public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
     public String getNombrePlanta() { return nombrePlanta; }
@@ -37,4 +41,6 @@ public class PlantaRiesgo {
     public String getNivelRiesgo() { return nivelRiesgo; }
     public void setNivelRiesgo(String nivelRiesgo) { this.nivelRiesgo = nivelRiesgo; }
 
+    public String getUbicacionNombre() { return ubicacionNombre; }
+    public void setUbicacionNombre(String ubicacionNombre) { this.ubicacionNombre = ubicacionNombre; }
 }

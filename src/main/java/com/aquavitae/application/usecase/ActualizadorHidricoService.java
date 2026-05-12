@@ -62,12 +62,13 @@ public class ActualizadorHidricoService {
 
             estadoPlantaRepository.guardarEstado(plantaId, indice, LocalDateTime.now());
 
-            if (indice < 0.3f) { // ALTO
+            if (indice < 0.3f) {
                 AlertaDominio alerta = new AlertaDominio(
                         null, "CRÍTICO",
                         "Índice hídrico crítico en planta " + plantaId,
                         String.format("Índice %.2f bajo umbral 0.3", indice),
                         indice,
+                        0.3f,
                         LocalDateTime.now()
                 );
                 alertaRepository.save(alerta);

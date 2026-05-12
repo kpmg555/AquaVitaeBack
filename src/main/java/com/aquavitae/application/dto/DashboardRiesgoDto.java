@@ -39,15 +39,18 @@ public class DashboardRiesgoDto {
         private final float longitud;
         private final float indiceHidrico;
         private final String nivelRiesgo;
+        private final String ubicacionNombre;   // NUEVO
 
         public PlantaRiesgoDto(Integer id, String nombre, float latitud,
-                               float longitud, float indiceHidrico, String nivelRiesgo) {
-            this.id= id;
+                               float longitud, float indiceHidrico,
+                               String nivelRiesgo, String ubicacionNombre) {
+            this.id = id;
             this.nombre = nombre;
             this.latitud = latitud;
             this.longitud = longitud;
             this.indiceHidrico = indiceHidrico;
             this.nivelRiesgo = nivelRiesgo;
+            this.ubicacionNombre = ubicacionNombre;
         }
 
         public Integer getIdPlanta() { return id; }
@@ -56,6 +59,7 @@ public class DashboardRiesgoDto {
         public float getLongitud() { return longitud; }
         public float getIndiceHidrico() { return indiceHidrico; }
         public String getNivelRiesgo() { return nivelRiesgo; }
+        public String getUbicacionNombre() { return ubicacionNombre; }
     }
 
     public static class ResumenDto {

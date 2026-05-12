@@ -19,9 +19,9 @@ public class DashboardRepositoryImpl implements DashboardRepository {
 
     @Override
     public DashboardRiesgo obtenerDashboard() {
-        // JPQL con JOIN a ubicación y subconsulta para el último estado
+        // La consulta ahora selecciona también u.nombre (el nombre textual de la ubicación)
         String jpql = """
-            SELECT p, u, ep.indiceHidrico
+            SELECT p, u, ep.indiceHidrico, u.nombre
             FROM PlantaEntity p
             JOIN p.ubicacion u
             LEFT JOIN EstadoPlantaEntity ep ON ep.planta = p
@@ -39,7 +39,8 @@ public class DashboardRepositoryImpl implements DashboardRepository {
                 .map(row -> DashboardMapper.toPlantaConRiesgo(
                         (PlantaEntity) row[0],
                         (UbicacionEntity) row[1],
-                        (Float) row[2]
+                        (Float) row[2],
+                        (String) row[3]
                 ))
                 .collect(Collectors.toList());
 

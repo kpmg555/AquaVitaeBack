@@ -1,47 +1,45 @@
 package com.aquavitae.interfaces.rest;
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import com.aquavitae.application.dto.AlertaDto;
 import com.aquavitae.application.dto.DashboardRiesgoDto;
 import com.aquavitae.application.dto.EvolucionRiesgoDto;
 import com.aquavitae.application.usecase.ObtenerAlertasUseCase;
 import com.aquavitae.application.usecase.ObtenerDashboardRiesgoUseCase;
 import com.aquavitae.application.usecase.ObtenerEvolucionUseCase;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 
-@Path("/dashboard")
+@Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class DashboardResource {
 
     @Inject
-    ObtenerDashboardRiesgoUseCase riesgoUseCase;
-
-    @Inject
-    ObtenerEvolucionUseCase evolucionUseCase;
+    ObtenerDashboardRiesgoUseCase dashboardUseCase;
 
     @Inject
     ObtenerAlertasUseCase alertasUseCase;
 
-    @GET
-    @Path("/riesgo")
-    public Response getRiesgo() {
-        DashboardRiesgoDto dto = riesgoUseCase.execute();
-        return Response.ok(dto).build();
-    }
+    @Inject
+    ObtenerEvolucionUseCase evolucionUseCase;
 
     @GET
-    @Path("/evolucion")
-    public Response getEvolucion(@QueryParam("dias") @DefaultValue("7") int dias) {
-        EvolucionRiesgoDto dto = evolucionUseCase.execute(dias);
-        return Response.ok(dto).build();
+    @Path("/dashboard")
+    public DashboardRiesgoDto getDashboard() {
+        return dashboardUseCase.execute();
     }
 
     @GET
     @Path("/alertas")
-    public Response getAlertas(@QueryParam("limit") @DefaultValue("3") int limit) {
-        return Response.ok(alertasUseCase.execute(limit)).build();
+    public List<AlertaDto> getAlertas(@QueryParam("limit") @DefaultValue("10") int limit) {
+        return alertasUseCase.execute(limit);
+    }
+
+    @GET
+    @Path("/evolucion")
+    public EvolucionRiesgoDto getEvolucion(@QueryParam("dias") @DefaultValue("30") int dias) {
+        return evolucionUseCase.execute(dias);
     }
 }

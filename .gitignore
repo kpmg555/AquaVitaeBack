@@ -44,4 +44,9 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 
+
+src/main/resources/*firebase*.json
+src/main/resources/*adminsdk*.json
+src/main/resources/*credentials*.json
+
 src/main/resources/todogrupo2-dd9dd-firebase-adminsdk-fbsvc-df883834d9.json
