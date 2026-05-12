@@ -6,12 +6,13 @@ import com.aquavitae.domain.models.DashboardRiesgo;
 import com.aquavitae.infrastructure.entities.PlantaEntity;
 import com.aquavitae.infrastructure.entities.UbicacionEntity;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DashboardMapper {
 
-    public static PlantaRiesgo toPlantaConRiesgo(PlantaEntity planta, UbicacionEntity ubicacion, Float indiceHidrico) {
-        float indice = (indiceHidrico != null) ? indiceHidrico : (float) 1.0;
+    // Ahora recibe también el nombre de la ubicación
+    public static PlantaRiesgo toPlantaConRiesgo(PlantaEntity planta, UbicacionEntity ubicacion,
+                                                 Float indiceHidrico, String ubicacionNombre) {
+        float indice = (indiceHidrico != null) ? indiceHidrico : 1.0f;
         String nivel = clasificarRiesgo(indice);
         return new PlantaRiesgo(
                 planta.getId(),
@@ -19,7 +20,8 @@ public class DashboardMapper {
                 ubicacion.getLatitud(),
                 ubicacion.getLongitud(),
                 indice,
-                nivel
+                nivel,
+                ubicacionNombre != null ? ubicacionNombre : ""
         );
     }
 

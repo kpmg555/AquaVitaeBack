@@ -26,7 +26,8 @@ public class ObtenerDashboardRiesgoUseCase {
                                         p.getLatitud(),
                                         p.getLongitud(),
                                         p.getIndiceHidrico(),
-                                        p.getNivelRiesgo()))
+                                        p.getNivelRiesgo(),
+                                        p.getUbicacionNombre()))  // NUEVO
                                 .collect(Collectors.toList()))
                 .resumen(new ResumenDto(
                         dashboard.getResumen().getAlto(),

@@ -31,6 +31,7 @@ public class AlertaRepositoryImpl implements AlertaRepository, PanacheRepository
         entity.setTitulo(alerta.getTitulo());
         entity.setDescripcion(alerta.getDescripcion());
         entity.setNivelActual(alerta.getNivelActual());
+        entity.setUmbral(alerta.getUmbral());          // NUEVO
         entity.setFecha(alerta.getFecha() != null ? alerta.getFecha() : LocalDateTime.now());
         persist(entity);
     }

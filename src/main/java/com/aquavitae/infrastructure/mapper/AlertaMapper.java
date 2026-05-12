@@ -12,6 +12,7 @@ public class AlertaMapper {
                 entity.getTitulo(),
                 entity.getDescripcion(),
                 entity.getNivelActual(),
+                entity.getUmbral(),
                 entity.getFecha()
         );
     }
