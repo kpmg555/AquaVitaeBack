@@ -42,4 +42,4 @@ public class DashboardResource {
     public EvolucionRiesgoDto getEvolucion(@QueryParam("dias") @DefaultValue("30") int dias) {
         return evolucionUseCase.execute(dias);
     }
-}}
+}
