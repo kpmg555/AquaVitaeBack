@@ -27,6 +27,7 @@ public class AlertaRepositoryImpl implements AlertaRepository, PanacheRepository
     @Transactional
     public void save(AlertaDominio alerta) {
         AlertaEntity entity = new AlertaEntity();
+        entity.setIdPlanta(alerta.getIdPlanta());
         entity.setTipo(alerta.getTipo());
         entity.setTitulo(alerta.getTitulo());
         entity.setDescripcion(alerta.getDescripcion());

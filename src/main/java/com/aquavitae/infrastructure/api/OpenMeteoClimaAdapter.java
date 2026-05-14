@@ -23,47 +23,53 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
     public List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones) {
         if (ubicaciones.isEmpty()) return List.of();
 
-        String latitudes = ubicaciones.stream()
-                .map(u -> String.valueOf(u.getLatitud()))
-                .collect(Collectors.joining(","));
-        String longitudes = ubicaciones.stream()
-                .map(u -> String.valueOf(u.getLongitud()))
-                .collect(Collectors.joining(","));
-
         String current = "temperature_2m,rain,evapotranspiration";
         String hourly = "soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm";
 
-        ClimaticResponse response = climaRestClient.getForecast(
-                latitudes, longitudes, current, hourly, "auto");
-
         List<DatosClimaticos> resultado = new ArrayList<>();
 
-        if (response.getCurrent() != null && response.getHourly() != null) {
-            float rain = response.getCurrent().getRain();
-            float temp = response.getCurrent().getTemperature2m();
-            float evap = response.getCurrent().getEvapotranspiration();
+        // Hacer una llamada por cada ubicación
+        for (UbicacionClima ub : ubicaciones) {
+            try {
+                ClimaticResponse response = climaRestClient.getForecast(
+                        String.valueOf(ub.getLatitud()),
+                        String.valueOf(ub.getLongitud()),
+                        current, hourly, "auto");
 
-            float[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
-            float[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
-            float[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
+                if (response.getCurrent() != null && response.getHourly() != null) {
+                    float rain = response.getCurrent().getRain();
+                    float temp = response.getCurrent().getTemperature2m();
+                    float evap = response.getCurrent().getEvapotranspiration();
 
-            float ultH0_1 = (hum0_1 != null && hum0_1.length > 0) ? hum0_1[hum0_1.length - 1] : 0f;
-            float ultH1_3 = (hum1_3 != null && hum1_3.length > 0) ? hum1_3[hum1_3.length - 1] : 0f;
-            float ultH3_9 = (hum3_9 != null && hum3_9.length > 0) ? hum3_9[hum3_9.length - 1] : 0f;
+                    float[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
+                    float[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
+                    float[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
 
-            for (UbicacionClima ub : ubicaciones) {
-                DatosClimaticos datos = new DatosClimaticos(
-                        ub.getId(),
-                        rain,
-                        ultH0_1,
-                        ultH1_3,
-                        ultH3_9,
-                        evap,
-                        temp
-                );
-                resultado.add(datos);
+                    float ultH0_1 = (hum0_1 != null && hum0_1.length > 0) ? hum0_1[hum0_1.length - 1] : 0f;
+                    float ultH1_3 = (hum1_3 != null && hum1_3.length > 0) ? hum1_3[hum1_3.length - 1] : 0f;
+                    float ultH3_9 = (hum3_9 != null && hum3_9.length > 0) ? hum3_9[hum3_9.length - 1] : 0f;
+
+                    DatosClimaticos datos = new DatosClimaticos(
+                            ub.getId(),
+                            rain,
+                            ultH0_1,
+                            ultH1_3,
+                            ultH3_9,
+                            evap,
+                            temp
+                    );
+                    resultado.add(datos);
+                }
+            } catch (Exception e) {
+                System.err.println("Error obtener datos de clima para ubicación: " + ub.getId());
+                e.printStackTrace();
             }
         }
         return resultado;
+    }
+
+    @Override
+    public String getNombre() {
+        return "openMeteo";
     }
 }

@@ -8,6 +8,7 @@ public class AlertaMapper {
     public static AlertaDominio toDomain(AlertaEntity entity) {
         return new AlertaDominio(
                 entity.getId(),
+                entity.getIdPlanta(),
                 entity.getTipo(),
                 entity.getTitulo(),
                 entity.getDescripcion(),

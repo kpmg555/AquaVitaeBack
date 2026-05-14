@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class AlertaDominio {
     private Integer id;
+    private Integer idPlanta;
     private String tipo;
     private String titulo;
     private String descripcion;
@@ -11,10 +12,11 @@ public class AlertaDominio {
     private float umbral;
     private LocalDateTime fecha;
 
-    public AlertaDominio(Integer id, String tipo, String titulo,
+    public AlertaDominio(Integer id, Integer idPlanta, String tipo, String titulo,
                          String descripcion, float nivelActual,
                          float umbral, LocalDateTime fecha) {
         this.id = id;
+        this.idPlanta = idPlanta;
         this.tipo = tipo;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -25,6 +27,9 @@ public class AlertaDominio {
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
+
+    public Integer getIdPlanta() { return idPlanta; }
+    public void setIdPlanta(Integer idPlanta) { this.idPlanta = idPlanta; }
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }

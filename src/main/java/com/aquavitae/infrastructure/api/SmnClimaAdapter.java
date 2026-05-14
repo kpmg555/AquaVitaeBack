@@ -65,6 +65,11 @@ public class SmnClimaAdapter implements FuenteClimaPort {
         return resultado;
     }
 
+    @Override
+    public String getNombre() {
+        return "smn";
+    }
+
     private void cargarCache() {
         if (cacheMunicipios != null && lastFetch != null
                 && ChronoUnit.MINUTES.between(lastFetch, LocalDateTime.now()) < CACHE_MINUTES) {

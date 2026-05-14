@@ -42,7 +42,7 @@ public class ActualizadorHidricoService {
     public void ejecutarActualizacion() {
         // 1. Seleccionar la fuente de clima (Strategy)
         FuenteClimaPort fuente = fuentes.stream()
-                .filter(f -> f.getClass().getAnnotation(Named.class).value().equals(fuenteActiva))
+                .filter(f -> f.getNombre().equals(fuenteActiva))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró fuente de clima: " + fuenteActiva));
 
@@ -64,7 +64,7 @@ public class ActualizadorHidricoService {
 
             if (indice < 0.3f) {
                 AlertaDominio alerta = new AlertaDominio(
-                        null, "CRÍTICO",
+                        null, plantaId, "CRÍTICO",
                         "Índice hídrico crítico en planta " + plantaId,
                         String.format("Índice %.2f bajo umbral 0.3", indice),
                         indice,
