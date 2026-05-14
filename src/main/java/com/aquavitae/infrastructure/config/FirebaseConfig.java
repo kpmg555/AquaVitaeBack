@@ -10,28 +10,28 @@ import jakarta.enterprise.event.Observes;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 @Startup
 @ApplicationScoped
 public class FirebaseConfig {
 
-    @ConfigProperty(name="firebase.credentials")
-    private String path;
+    @ConfigProperty(name = "firebase.credentials")
+    String path;
 
-    void onStart(@Observes StartupEvent ev) throws FileNotFoundException {
-        try{
-            if(FirebaseApp.getApps().isEmpty()){
-                try(InputStream serviceAccount = new FileInputStream(path)){
-                    FirebaseOptions options=
-                            FirebaseOptions.builder()
-                                    .setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
+    void onStart(@Observes StartupEvent ev) {
+        try {
+            if (FirebaseApp.getApps().isEmpty()) {
+                try (InputStream serviceAccount = new FileInputStream(path)) {
+                    FirebaseOptions options = FirebaseOptions.builder()
+                            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                            .build();
+
                     FirebaseApp.initializeApp(options);
                 }
             }
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            throw new RuntimeException("Error initializing Firebase Admin SDK", e);
         }
     }
 }
