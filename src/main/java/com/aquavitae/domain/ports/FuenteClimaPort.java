@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface FuenteClimaPort {
     List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones);
+    
+    String getNombre();
 }
