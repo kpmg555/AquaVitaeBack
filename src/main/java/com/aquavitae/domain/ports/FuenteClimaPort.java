@@ -5,5 +5,6 @@ import com.aquavitae.domain.models.UbicacionClima;
 import java.util.List;
 
 public interface FuenteClimaPort {
+    String getNombre();
     List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones);
 }

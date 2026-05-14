@@ -3,7 +3,6 @@ package com.aquavitae.application.usecase;
 import io.quarkus.arc.All;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import com.aquavitae.domain.models.*;
 import com.aquavitae.domain.ports.FuenteClimaPort;
 import com.aquavitae.domain.ports.NotificacionPort;
@@ -42,7 +41,7 @@ public class ActualizadorHidricoService {
     public void ejecutarActualizacion() {
         // 1. Seleccionar la fuente de clima (Strategy)
         FuenteClimaPort fuente = fuentes.stream()
-                .filter(f -> f.getClass().getAnnotation(Named.class).value().equals(fuenteActiva))
+                .filter(f -> fuenteActiva.equals(f.getNombre()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró fuente de clima: " + fuenteActiva));
 
@@ -62,13 +61,13 @@ public class ActualizadorHidricoService {
 
             estadoPlantaRepository.guardarEstado(plantaId, indice, LocalDateTime.now());
 
-            if (indice < 0.3f) {
+            if (indice >= 0.75f) {
                 AlertaDominio alerta = new AlertaDominio(
                         null, "CRÍTICO",
                         "Índice hídrico crítico en planta " + plantaId,
-                        String.format("Índice %.2f bajo umbral 0.3", indice),
+                        String.format("Índice de estrés %.2f supera umbral 0.75", indice),
                         indice,
-                        0.3f,
+                        0.75f,
                         LocalDateTime.now()
                 );
                 alertaRepository.save(alerta);
