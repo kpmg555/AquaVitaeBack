@@ -8,13 +8,13 @@ public class AlertaDominio {
     private String tipo;
     private String titulo;
     private String descripcion;
-    private float nivelActual;
-    private float umbral;
+    private Double nivelActual;
+    private Double umbral;
     private LocalDateTime fecha;
 
     public AlertaDominio(Integer id, Integer idPlanta, String tipo, String titulo,
-                         String descripcion, float nivelActual,
-                         float umbral, LocalDateTime fecha) {
+                         String descripcion, Double nivelActual,
+                         Double umbral, LocalDateTime fecha) {
         this.id = id;
         this.idPlanta = idPlanta;
         this.tipo = tipo;
@@ -40,11 +40,11 @@ public class AlertaDominio {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public float getNivelActual() { return nivelActual; }
-    public void setNivelActual(float nivelActual) { this.nivelActual = nivelActual; }
+    public Double getNivelActual() { return nivelActual; }
+    public void setNivelActual(Double nivelActual) { this.nivelActual = nivelActual; }
 
-    public float getUmbral() { return umbral; }
-    public void setUmbral(float umbral) { this.umbral = umbral; }
+    public Double getUmbral() { return umbral; }
+    public void setUmbral(Double umbral) { this.umbral = umbral; }
 
     public LocalDateTime getFecha() { return fecha; }
     public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }

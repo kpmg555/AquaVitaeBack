@@ -18,11 +18,11 @@ public class EstadoPlantaRepositoryImpl implements EstadoPlantaRepository, Panac
 
     @Override
     @Transactional
-    public void guardarEstado(int plantaId, float indiceHidrico, LocalDateTime fecha) {
+    public void guardarEstado(int plantaId, Double indiceHidrico, LocalDateTime fecha) {
         EstadoPlantaEntity estado = new EstadoPlantaEntity();
         PlantaEntity plantaRef = em.getReference(PlantaEntity.class, plantaId);
         estado.setPlanta(plantaRef);
-        estado.setIndiceHidrico(indiceHidrico);  // setter que espera Float o float
+        estado.setIndiceHidrico(indiceHidrico);
         estado.setFechaRegistro(fecha);
         estado.setTipoDato("pronostico_openmeteo");
         estado.setNivelAgua(indiceHidrico * 100);

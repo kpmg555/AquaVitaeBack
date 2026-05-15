@@ -32,9 +32,9 @@ public class AlertaEntity {
     private String descripcion;
 
     @Column(name = "nivel_actual")
-    private Float nivelActual;
+    private Double nivelActual;
 
-    private Float umbral;
+    private Double umbral;
 
     @Column(length = 100)
     private String tendencia;
@@ -59,11 +59,11 @@ public class AlertaEntity {
     public String getDescripcion() {return descripcion;}
     public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 
-    public Float getNivelActual() {return nivelActual;}
-    public void setNivelActual(Float nivelActual) {this.nivelActual = nivelActual;}
+    public Double getNivelActual() {return nivelActual;}
+    public void setNivelActual(Double nivelActual) {this.nivelActual = nivelActual;}
 
-    public Float getUmbral() {return umbral;}
-    public void setUmbral(Float umbral) {this.umbral = umbral;}
+    public Double getUmbral() {return umbral;}
+    public void setUmbral(Double umbral) {this.umbral = umbral;}
 
     public String getTendencia() {return tendencia;}
     public void setTendencia(String tendencia) {this.tendencia = tendencia;}
