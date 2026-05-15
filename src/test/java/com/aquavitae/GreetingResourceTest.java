@@ -11,7 +11,7 @@ class GreetingResourceTest {
     @Test
     public void testDashboardRiesgo() {
         given()
-                .when().get("/dashboard/riesgo")
+                .when().get("/api/dashboard")
                 .then()
                 .statusCode(200);
     }

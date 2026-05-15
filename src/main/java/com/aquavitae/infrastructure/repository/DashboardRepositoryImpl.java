@@ -39,7 +39,7 @@ public class DashboardRepositoryImpl implements DashboardRepository {
                 .map(row -> DashboardMapper.toPlantaConRiesgo(
                         (PlantaEntity) row[0],
                         (UbicacionEntity) row[1],
-                        (Float) row[2],
+                        (Double) row[2],
                         (String) row[3]
                 ))
                 .collect(Collectors.toList());

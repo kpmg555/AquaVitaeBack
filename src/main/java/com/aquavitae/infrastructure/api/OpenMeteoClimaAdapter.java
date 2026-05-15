@@ -37,17 +37,17 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
                         current, hourly, "auto");
 
                 if (response.getCurrent() != null && response.getHourly() != null) {
-                    float rain = response.getCurrent().getRain();
-                    float temp = response.getCurrent().getTemperature2m();
-                    float evap = response.getCurrent().getEvapotranspiration();
+                    Double rain = response.getCurrent().getRain();
+                    Double temp = response.getCurrent().getTemperature2m();
+                    Double evap = response.getCurrent().getEvapotranspiration();
 
-                    float[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
-                    float[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
-                    float[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
+                    Double[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
+                    Double[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
+                    Double[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
 
-                    float ultH0_1 = (hum0_1 != null && hum0_1.length > 0) ? hum0_1[hum0_1.length - 1] : 0f;
-                    float ultH1_3 = (hum1_3 != null && hum1_3.length > 0) ? hum1_3[hum1_3.length - 1] : 0f;
-                    float ultH3_9 = (hum3_9 != null && hum3_9.length > 0) ? hum3_9[hum3_9.length - 1] : 0f;
+                    Double ultH0_1 = (hum0_1 != null && hum0_1.length > 0) ? hum0_1[hum0_1.length - 1] : 0.0;
+                    Double ultH1_3 = (hum1_3 != null && hum1_3.length > 0) ? hum1_3[hum1_3.length - 1] : 0.0;
+                    Double ultH3_9 = (hum3_9 != null && hum3_9.length > 0) ? hum3_9[hum3_9.length - 1] : 0.0;
 
                     DatosClimaticos datos = new DatosClimaticos(
                             ub.getId(),

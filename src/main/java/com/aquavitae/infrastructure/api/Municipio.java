@@ -8,41 +8,41 @@ public class Municipio {
     private String nombreMunicipio;
 
     @JsonProperty("lat")
-    private double latitud;
+    private Double latitud;
 
     @JsonProperty("lon")
-    private double longitud;
+    private Double longitud;
 
     @JsonProperty("tmax")
-    private float temperaturaMax;
+    private Double temperaturaMax;
 
     @JsonProperty("tmin")
-    private float temperaturaMin;
+    private Double temperaturaMin;
 
     @JsonProperty("prec")
-    private float precipitacion;
+    private Double precipitacion;
 
     @JsonProperty("hr")
-    private float humedadRelativa;
+    private Double humedadRelativa;
 
     public String getNombreMunicipio() { return nombreMunicipio; }
     public void setNombreMunicipio(String nombreMunicipio) { this.nombreMunicipio = nombreMunicipio; }
 
-    public double getLatitud() { return latitud; }
-    public void setLatitud(double latitud) { this.latitud = latitud; }
+    public Double getLatitud() { return latitud; }
+    public void setLatitud(Double latitud) { this.latitud = latitud; }
 
-    public double getLongitud() { return longitud; }
-    public void setLongitud(double longitud) { this.longitud = longitud; }
+    public Double getLongitud() { return longitud; }
+    public void setLongitud(Double longitud) { this.longitud = longitud; }
 
-    public float getTemperaturaMax() { return temperaturaMax; }
-    public void setTemperaturaMax(float temperaturaMax) { this.temperaturaMax = temperaturaMax; }
+    public Double getTemperaturaMax() { return temperaturaMax; }
+    public void setTemperaturaMax(Double temperaturaMax) { this.temperaturaMax = temperaturaMax; }
 
-    public float getTemperaturaMin() { return temperaturaMin; }
-    public void setTemperaturaMin(float temperaturaMin) { this.temperaturaMin = temperaturaMin; }
+    public Double getTemperaturaMin() { return temperaturaMin; }
+    public void setTemperaturaMin(Double temperaturaMin) { this.temperaturaMin = temperaturaMin; }
 
-    public float getPrecipitacion() { return precipitacion; }
-    public void setPrecipitacion(float precipitacion) { this.precipitacion = precipitacion; }
+    public Double getPrecipitacion() { return precipitacion; }
+    public void setPrecipitacion(Double precipitacion) { this.precipitacion = precipitacion; }
 
-    public float getHumedadRelativa() { return humedadRelativa; }
-    public void setHumedadRelativa(float humedadRelativa) { this.humedadRelativa = humedadRelativa; }
+    public Double getHumedadRelativa() { return humedadRelativa; }
+    public void setHumedadRelativa(Double humedadRelativa) { this.humedadRelativa = humedadRelativa; }
 }

@@ -20,10 +20,10 @@ public class UbicacionEntity {
     private String nombre;
 
     @Column(nullable = false)
-    private Float latitud;
+    private Double latitud;
 
     @Column(nullable = false)
-    private Float longitud;
+    private Double longitud;
 
     private Integer elevation;
 
@@ -44,11 +44,11 @@ public class UbicacionEntity {
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public Float getLatitud() {return latitud;}
-    public void setLatitud(Float latitud) {this.latitud = latitud;}
+    public Double getLatitud() {return latitud;}
+    public void setLatitud(Double latitud) {this.latitud = latitud;}
 
-    public Float getLongitud() {return longitud;}
-    public void setLongitud(Float longitud) {this.longitud = longitud;}
+    public Double getLongitud() {return longitud;}
+    public void setLongitud(Double longitud) {this.longitud = longitud;}
 
     public Integer getElevation() {return elevation;}
     public void setElevation(Integer elevation) {this.elevation = elevation;}
