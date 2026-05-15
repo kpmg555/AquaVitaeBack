@@ -33,8 +33,8 @@ public class DashboardMapper {
     }
 
     private static String clasificarRiesgo(Double indice) {
-        if (indice <= 0.3) return "ALTO";
+        if (indice <= 0.3) return "BAJO";
         if (indice <= 0.6) return "MEDIO";
-        return "BAJO";
+        return "ALTO";
     }
 }
