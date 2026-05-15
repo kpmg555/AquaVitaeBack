@@ -41,5 +41,13 @@ nb-configuration.xml
 
 # Plugin directory
 /.quarkus/cli/plugins/
+
 # TLS Certificates
 .certs/
+
+# Firebase / Credentials
+src/main/resources/*.json
+src/main/resources/*firebase*.json
+src/main/resources/*adminsdk*.json
+src/main/resources/*credentials*.json
+aquavitae-76bfa-firebase-adminsdk-fbsvc-56778c9f37.json
