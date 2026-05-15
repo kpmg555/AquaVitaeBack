@@ -16,15 +16,15 @@ public class EvolucionHidrica {
 
         public static class PuntoDiario {
             private final LocalDate fecha;
-            private final float valorPromedio;
+            private final Double valorPromedio;
 
-            public PuntoDiario(LocalDate fecha, float valorPromedio) {
+            public PuntoDiario(LocalDate fecha, Double valorPromedio) {
                 this.fecha = fecha;
                 this.valorPromedio = valorPromedio;
             }
 
             public LocalDate getFecha() { return fecha; }
 
-            public float getValorPromedio() { return valorPromedio; }
+            public Double getValorPromedio() { return valorPromedio; }
         }
 }

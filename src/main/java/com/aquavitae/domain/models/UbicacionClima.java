@@ -3,11 +3,11 @@ package com.aquavitae.domain.models;
 
 public class UbicacionClima {
         private Integer id;
-        private float latitud;
-        private float longitud;
-        private int elevation;
+        private Double latitud;
+        private Double longitud;
+        private Integer elevation;
 
-        public UbicacionClima(Integer id, float latitud, float longitud, int elevation) {
+        public UbicacionClima(Integer id, Double latitud, Double longitud, Integer elevation) {
             this.id= id;
             this.latitud = latitud;
             this.longitud = longitud;
@@ -17,11 +17,11 @@ public class UbicacionClima {
         public Integer getId() {return id;}
         public  void setId(Integer id) {this.id = id;}
 
-        public float getLatitud() {return latitud;}
-        public void setLatitud(float latitud) {this.latitud = latitud;}
+        public Double getLatitud() {return latitud;}
+        public void setLatitud(Double latitud) {this.latitud = latitud;}
 
-        public float getLongitud() {return longitud;}
-        public void setLongitud(float longitud) {this.longitud = longitud;}
+        public Double getLongitud() {return longitud;}
+        public void setLongitud(Double longitud) {this.longitud = longitud;}
 
         public int getElevation() {return elevation;}
         public void setElevation(int elevation) {this.elevation = elevation;}

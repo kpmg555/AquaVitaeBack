@@ -46,21 +46,21 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
                     "JSON"
             );
 
-            float temperatura = response.getParameterValue("T2M") != null
-                    ? response.getParameterValue("T2M").floatValue() : 0f;
-            float precipitacion = response.getParameterValue("PRECTOTCORR") != null
-                    ? response.getParameterValue("PRECTOTCORR").floatValue() : 0f;
-            float humedadRelativa = response.getParameterValue("RH2M") != null
-                    ? response.getParameterValue("RH2M").floatValue() : 0f;
-            float humedadSuelo = humedadRelativa / 100f;   // normalizar [0,1]
+            Double temperatura = response.getParameterValue("T2M") != null
+                    ? response.getParameterValue("T2M").doubleValue() : 0.0;
+            Double precipitacion = response.getParameterValue("PRECTOTCORR") != null
+                    ? response.getParameterValue("PRECTOTCORR").doubleValue() : 0.0;
+            Double humedadRelativa = response.getParameterValue("RH2M") != null
+                    ? response.getParameterValue("RH2M").doubleValue() : 0.0;
+            Double humedadSuelo = humedadRelativa / 100.0;   // normalizar [0,1]
 
             DatosClimaticos datos = new DatosClimaticos(
                     ub.getId(),
                     precipitacion,
-                    humedadSuelo / 3f,    // capa 0–1 cm
-                    humedadSuelo / 3f,    // capa 1–3 cm
-                    humedadSuelo / 3f,    // capa 3–9 cm
-                    0f,                   // evapotranspiración no disponible
+                    humedadSuelo / 3,    // capa 0–1 cm
+                    humedadSuelo / 3,    // capa 1–3 cm
+                    humedadSuelo / 3,    // capa 3–9 cm
+                    0.0,                   // evapotranspiración no disponible
                     temperatura
             );
             resultado.add(datos);

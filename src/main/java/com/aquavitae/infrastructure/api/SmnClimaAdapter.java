@@ -42,24 +42,24 @@ public class SmnClimaAdapter implements FuenteClimaPort {
 
             if (municipioOpt.isPresent()) {
                 Municipio m = municipioOpt.get();
-                float precipitacion = m.getPrecipitacion();
-                float temperatura = (m.getTemperaturaMax() + m.getTemperaturaMin()) / 2f;
-                float humedadSuelo = m.getHumedadRelativa() / 100f; // normalizado 0-1
+                Double precipitacion = m.getPrecipitacion();
+                Double temperatura = (m.getTemperaturaMax() + m.getTemperaturaMin()) / 2.0;
+                Double humedadSuelo = m.getHumedadRelativa() / 100.0; // normalizado 0-1
 
                 DatosClimaticos datos = new DatosClimaticos(
                         ub.getId(),
                         precipitacion,
-                        humedadSuelo / 3f,    // capa 0-1 cm
-                        humedadSuelo / 3f,    // capa 1-3 cm
-                        humedadSuelo / 3f,    // capa 3-9 cm
-                        0f,     // evapotranspiración no disponible
+                        humedadSuelo / 3,    // capa 0-1 cm
+                        humedadSuelo / 3,    // capa 1-3 cm
+                        humedadSuelo / 3,    // capa 3-9 cm
+                        0.0,     // evapotranspiración no disponible
                         temperatura
                 );
                 resultado.add(datos);
             } else {
                 // Municipio no encontrado: datos en ceros
                 resultado.add(new DatosClimaticos(
-                        ub.getId(), 0f, 0f, 0f, 0f, 0f, 0f));
+                        ub.getId(), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
             }
         }
         return resultado;
@@ -84,12 +84,12 @@ public class SmnClimaAdapter implements FuenteClimaPort {
         }
     }
 
-    private Optional<Municipio> buscarMunicipioMasCercano(double lat, double lon) {
+    private Optional<Municipio> buscarMunicipioMasCercano(Double lat, Double lon) {
         Municipio mejor = null;
-        double mejorDist = Double.MAX_VALUE;
+        Double mejorDist = Double.MAX_VALUE;
 
         for (Municipio m : cacheMunicipios) {
-            double dist = distanciaHaversine(lat, lon, m.getLatitud(), m.getLongitud());
+            Double dist = distanciaHaversine(lat, lon, m.getLatitud(), m.getLongitud());
             if (dist < mejorDist) {
                 mejorDist = dist;
                 mejor = m;
@@ -102,10 +102,10 @@ public class SmnClimaAdapter implements FuenteClimaPort {
         return Optional.ofNullable(mejor);
     }
 
-    private double distanciaHaversine(double lat1, double lon1, double lat2, double lon2) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    private Double distanciaHaversine(Double lat1, Double lon1, Double lat2, Double lon2) {
+        Double dLat = Math.toRadians(lat2 - lat1);
+        Double dLon = Math.toRadians(lon2 - lon1);
+        Double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); // radianes

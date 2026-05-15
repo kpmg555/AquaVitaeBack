@@ -18,16 +18,16 @@ public class EstadoPlantaEntity {
     @Column(name = "fecha_registro", nullable = false)
     private LocalDateTime fechaRegistro;
 
-    private Float umbral;
+    private Double umbral;
 
     @Column(name = "proyeccion_nivel_mm")
-    private Float proyeccionNivelMm;
+    private Double proyeccionNivelMm;
 
     @Column(name = "nivel_agua", nullable = false)
-    private Float nivelAgua;
+    private Double nivelAgua;
 
     @Column(name = "indice_hidrico", nullable = false)
-    private Float indiceHidrico;
+    private Double indiceHidrico;
 
     @Column(name = "evento_extremo")
     private Boolean eventoExtremo = false;
@@ -51,11 +51,11 @@ public class EstadoPlantaEntity {
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
 
-    public Float getNivelAgua() { return nivelAgua; }
-    public void setNivelAgua(Float nivelAgua) { this.nivelAgua = nivelAgua; }
+    public Double getNivelAgua() { return nivelAgua; }
+    public void setNivelAgua(Double nivelAgua) { this.nivelAgua = nivelAgua; }
 
-    public Float getIndiceHidrico() { return indiceHidrico; }
-    public void setIndiceHidrico(Float indiceHidrico) { this.indiceHidrico = indiceHidrico; }
+    public Double getIndiceHidrico() { return indiceHidrico; }
+    public void setIndiceHidrico(Double indiceHidrico) { this.indiceHidrico = indiceHidrico; }
 
     public String getTipoDato() { return tipoDato; }
     public void setTipoDato(String tipoDato) { this.tipoDato = tipoDato; }

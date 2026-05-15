@@ -11,13 +11,13 @@ public class EvolucionRiesgoDto {
 
     public static class PuntoDto {
         private final LocalDate fecha;
-        private final float valorPromedio;
+        private final Double valorPromedio;
 
-        public PuntoDto(LocalDate fecha, float valorPromedio) {
+        public PuntoDto(LocalDate fecha, Double valorPromedio) {
             this.fecha = fecha;
-            this.valorPromedio = valorPromedio;
+            this.valorPromedio = (Double) valorPromedio;
         }
         public LocalDate getFecha() { return fecha; }
-        public float getValorPromedio() { return valorPromedio; }
+        public Double getValorPromedio() { return valorPromedio; }
     }
 }
