@@ -48,9 +48,9 @@ public class AlternativasMapper {
         BigDecimal costoApertura = planta.getCostoAperturaMxn() != null ? planta.getCostoAperturaMxn() : BigDecimal.ZERO;
         BigDecimal costoTotal   = costoCierre.add(costoApertura);
 
-        int tiempoCierre = 25;
         int diasMin = planta.getDiasReaperturaMin() != null ? planta.getDiasReaperturaMin() : 30;
         int diasMax = planta.getDiasReaperturaMax() != null ? planta.getDiasReaperturaMax() : 60;
+        int tiempoCierre = Math.round(diasMin * 0.7f);
 
         return new AlternativaUbicacion(planta.getId(), planta.getNombre(), estado_nombre,
                                         riesgo, riesgoLabel, costoCierre, costoApertura, costoTotal,
