@@ -3,6 +3,17 @@ steps:
   args: ['mvn', 'package', '-DskipTests']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'src/main/docker/Dockerfile.jvm', '-t', 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest', '.']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - run
+  - deploy
+  - aquavitae-backend
+  - --image=us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest
+  - --region=us-central1
+  - --project=aquavitaeback
+  - --platform=managed
+  - --quiet
 images:
 - 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest'
 timeout: 1200s
