@@ -11,8 +11,8 @@ import com.aquavitae.infrastructure.entities.PlantaEntity;
 public class SimulacionMapper {
 
     public static KpiSimulacion toKpiSimulacion(EstadoPlantaEntity estado, PlantaEntity planta) {
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
-        float umbral = planta.getUmbralAlerta() != null ? planta.getUmbralAlerta() : 0.75f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
+        float umbral = planta.getUmbralAlerta() != null ? planta.getUmbralAlerta().floatValue() : 0.75f;
 
         ProyeccionHidrica proyeccion = GenerarProyeccionService.generar(indice, 90);
         int dias = CalcularDiasHastaUmbralService.calcular(proyeccion, umbral);

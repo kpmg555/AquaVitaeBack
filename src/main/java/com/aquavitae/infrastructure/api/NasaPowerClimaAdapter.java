@@ -72,8 +72,4 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
         return resultado;
     }
 
-    @Override
-    public String getNombre() {
-        return "nasaPower";
-    }
 }

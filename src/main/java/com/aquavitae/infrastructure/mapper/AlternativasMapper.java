@@ -16,8 +16,8 @@ import java.util.List;
 public class AlternativasMapper {
 
     public static AlertaOperativa toAlerta(EstadoPlantaEntity estado, PlantaEntity planta) {
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
-        float umbral = planta.getUmbralAlerta() != null ? planta.getUmbralAlerta() : 0.75f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
+        float umbral = planta.getUmbralAlerta() != null ? planta.getUmbralAlerta().floatValue() : 0.75f;
 
         var proyeccion = GenerarProyeccionService.generar(indice, 90);
         int diasCierre = CalcularDiasHastaUmbralService.calcular(proyeccion, umbral);
@@ -40,7 +40,7 @@ public class AlternativasMapper {
 
     public static AlternativaUbicacion toAlternativa(EstadoPlantaEntity estado, PlantaEntity planta,
                                                       String estado_nombre, boolean recomendada) {
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
         String riesgo = ClasificarRiesgoService.clasificar(indice);
         String riesgoLabel = ClasificarRiesgoService.label(riesgo);
 
@@ -58,7 +58,7 @@ public class AlternativasMapper {
     }
 
     public static List<FactorEvaluacion> toFactores(EstadoPlantaEntity estado, PlantaEntity planta) {
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
         BigDecimal costoOp = planta.getCostoOperacionDiariaMxn();
         int diasMin = planta.getDiasReaperturaMin() != null ? planta.getDiasReaperturaMin() : 30;
         int diasMax = planta.getDiasReaperturaMax() != null ? planta.getDiasReaperturaMax() : 60;

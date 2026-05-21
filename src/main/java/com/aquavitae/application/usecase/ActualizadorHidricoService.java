@@ -67,7 +67,7 @@ public class ActualizadorHidricoService {
                           "Índice hídrico crítico en planta " + plantaId,
                           String.format("Índice de estrés %.2f supera umbral 0.75", indice),
                           indice,
-                          0.75f,
+                          0.75,
                           LocalDateTime.now()
                   );
                   alertaRepository.save(alerta);
