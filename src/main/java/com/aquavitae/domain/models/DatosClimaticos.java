@@ -4,21 +4,21 @@ public class DatosClimaticos {
 
     //final porque no se pueden modificar los datos climáticos una vez creados,
     private final Integer id;
-    private final float precipitacionMm;
-    private final float humedadSuelo0_1;
-    private final float humedadSuelo1_3;
-    private final float humedadSuelo3_9;
-    private final float humedadSuelo;
-    private final float evapotranspiracion;
-    private final float temperatura;
+    private final Double precipitacionMm;
+    private final Double humedadSuelo0_1;
+    private final Double humedadSuelo1_3;
+    private final Double humedadSuelo3_9;
+    private final Double humedadSuelo;
+    private final Double evapotranspiracion;
+    private final Double temperatura;
 
     public DatosClimaticos(Integer id,
-                           float precipitacionMm,
-                           float humedadSuelo0_1,
-                           float humedadSuelo1_3,
-                           float humedadSuelo3_9,
-                           float evapotranspiracion,
-                           float temperatura) {
+                           Double precipitacionMm,
+                           Double humedadSuelo0_1,
+                           Double humedadSuelo1_3,
+                           Double humedadSuelo3_9,
+                           Double evapotranspiracion,
+                           Double temperatura) {
 
         this.id = id;
         this.precipitacionMm = precipitacionMm;
@@ -32,22 +32,22 @@ public class DatosClimaticos {
                 humedadSuelo0_1 +
                         humedadSuelo1_3 +
                         humedadSuelo3_9
-        ) / 3f;
+        ) / 3;
     }
 
     public Integer getId() { return id; }
 
-    public float getPrecipitacionMm() { return precipitacionMm; }
+    public Double getPrecipitacionMm() { return precipitacionMm; }
 
-    public float getHumedadSuelo0_1() { return humedadSuelo0_1; }
+    public Double getHumedadSuelo0_1() { return humedadSuelo0_1; }
 
-    public float getHumedadSuelo1_3() { return humedadSuelo1_3; }
+    public Double getHumedadSuelo1_3() { return humedadSuelo1_3; }
 
-    public float getHumedadSuelo3_9() { return humedadSuelo3_9; }
+    public Double getHumedadSuelo3_9() { return humedadSuelo3_9; }
 
-    public float getHumedadSuelo() { return humedadSuelo; }
+    public Double getHumedadSuelo() { return humedadSuelo; }
 
-    public float getEvapotranspiracion() { return evapotranspiracion; }
+    public Double getEvapotranspiracion() { return evapotranspiracion; }
 
-    public float getTemperatura() { return temperatura; }
+    public Double getTemperatura() { return temperatura; }
 }

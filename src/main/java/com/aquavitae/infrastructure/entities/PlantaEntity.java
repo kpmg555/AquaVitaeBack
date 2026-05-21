@@ -28,7 +28,7 @@ public class PlantaEntity {
     private Boolean activa = true;
 
     @Column(name = "umbral_alerta")
-    private Float umbralAlerta = 0.75f;
+    private Double umbralAlerta = 0.75;
 
     @Column(name = "costo_cierre_mxn", precision = 15, scale = 2)
     private BigDecimal costoCierreMxn;
@@ -66,8 +66,8 @@ public class PlantaEntity {
     public Boolean getActiva() { return activa; }
     public void setActiva(Boolean activa) { this.activa = activa; }
 
-    public Float getUmbralAlerta() { return umbralAlerta; }
-    public void setUmbralAlerta(Float umbralAlerta) { this.umbralAlerta = umbralAlerta; }
+    public Double getUmbralAlerta() { return umbralAlerta; }
+    public void setUmbralAlerta(Double umbralAlerta) { this.umbralAlerta = umbralAlerta; }
 
     public BigDecimal getCostoCierreMxn() { return costoCierreMxn; }
     public void setCostoCierreMxn(BigDecimal costoCierreMxn) { this.costoCierreMxn = costoCierreMxn; }

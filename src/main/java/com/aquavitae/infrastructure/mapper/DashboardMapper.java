@@ -11,8 +11,8 @@ public class DashboardMapper {
 
     // Ahora recibe también el nombre de la ubicación
     public static PlantaRiesgo toPlantaConRiesgo(PlantaEntity planta, UbicacionEntity ubicacion,
-                                                 Float indiceHidrico, String ubicacionNombre) {
-        float indice = (indiceHidrico != null) ? indiceHidrico : 1.0f;
+                                                 Double indiceHidrico, String ubicacionNombre) {
+        Double indice = (indiceHidrico != null) ? indiceHidrico : 1.0f;
         String nivel = clasificarRiesgo(indice);
         return new PlantaRiesgo(
                 planta.getId(),
@@ -32,9 +32,10 @@ public class DashboardMapper {
         return new DashboardRiesgo(plantas, new ResumenRiesgo(alto, medio, bajo));
     }
 
-    private static String clasificarRiesgo(double indice) {
-        if (indice >= 0.70) return "ALTO";
-        if (indice >= 0.45) return "MEDIO";
-        return "BAJO";
-    }
+ private static String clasificarRiesgo(double indice) {
+          if (indice >= 0.70) return "ALTO";
+          if (indice >= 0.45) return "MEDIO";
+          return "BAJO"; 
+      }
+    
 }

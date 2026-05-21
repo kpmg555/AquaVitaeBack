@@ -56,23 +56,23 @@ public class ActualizadorHidricoService {
             DatosClimaticos datos = datosList.get(i);
             int plantaId = ubicaciones.get(i).getId();
 
-            double indiceDouble = CalcularIndiceHidrico.calcular(datos);
-            float indice = (float) indiceDouble;
+            Double indiceDouble = CalcularIndiceHidrico.calcular(datos);
+            Double indice = (Double) indiceDouble;
 
             estadoPlantaRepository.guardarEstado(plantaId, indice, LocalDateTime.now());
 
-            if (indice >= 0.75f) {
-                AlertaDominio alerta = new AlertaDominio(
-                        null, plantaId, "CRÍTICO",
-                        "Índice hídrico crítico en planta " + plantaId,
-                        String.format("Índice de estrés %.2f supera umbral 0.75", indice),
-                        indice,
-                        0.75f,
-                        LocalDateTime.now()
-                );
-                alertaRepository.save(alerta);
-                notificacionPort.enviarNotificacionRiesgo(alerta, plantaId);
-            }
-        }
-    }
-}
+              if (indice >= 0.75f) {
+                  AlertaDominio alerta = new AlertaDominio(
+                          null, plantaId, "CRÍTICO",
+                          "Índice hídrico crítico en planta " + plantaId,
+                          String.format("Índice de estrés %.2f supera umbral 0.75", indice),
+                          indice,
+                          0.75f,
+                          LocalDateTime.now()
+                  );
+                  alertaRepository.save(alerta);
+                  notificacionPort.enviarNotificacionRiesgo(alerta, plantaId);
+              }
+          }
+      }
+  }

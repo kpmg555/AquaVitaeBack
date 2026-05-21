@@ -32,15 +32,15 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
         List<ClimaticResponse> responses = climaRestClient.getForecast(
                 latitudes, longitudes, current, hourly, "auto");
 
-        List<DatosClimaticos> resultado = new ArrayList<>();
+List<DatosClimaticos> resultado = new ArrayList<>();
 
-        for (int i = 0; i < ubicaciones.size(); i++) {
-            UbicacionClima ub = ubicaciones.get(i);
-            if (i >= responses.size()) break;
-            ClimaticResponse response = responses.get(i);
+          for (int i = 0; i < ubicaciones.size(); i++) {
+              UbicacionClima ub = ubicaciones.get(i);
+              if (i >= responses.size()) break;
+              ClimaticResponse response = responses.get(i);
 
-            float rain = 0f, temp = 0f, evap = 0f;
-            float ultH0_1 = 0f, ultH1_3 = 0f, ultH3_9 = 0f;
+              float rain = 0f, temp = 0f, evap = 0f;
+              float ultH0_1 = 0f, ultH1_3 = 0f, ultH3_9 = 0f;
 
             if (response.getCurrent() != null) {
                 rain = response.getCurrent().getRain();

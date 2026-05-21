@@ -7,13 +7,13 @@ public class AlertaDto {
     private final String tipo;
     private final String titulo;
     private final String descripcion;
-    private final float nivelActual;
-    private final float umbral;          // NUEVO
+    private final Double nivelActual;
+    private final Double umbral;         
     private final LocalDateTime fecha;
 
     public AlertaDto(Integer id, String tipo, String titulo,
-                     String descripcion, float nivelActual,
-                     float umbral, LocalDateTime fecha) {
+                     String descripcion, Double nivelActual,
+                     Double umbral, LocalDateTime fecha) {
         this.id = id;
         this.tipo = tipo;
         this.titulo = titulo;
@@ -27,7 +27,7 @@ public class AlertaDto {
     public String getTipo() { return tipo; }
     public String getTitulo() { return titulo; }
     public String getDescripcion() { return descripcion; }
-    public float getNivelActual() { return nivelActual; }
-    public float getUmbral() { return umbral; }      // NUEVO getter
+    public Double getNivelActual() { return nivelActual; }
+    public Double getUmbral() { return umbral; }     
     public LocalDateTime getFecha() { return fecha; }
 }
