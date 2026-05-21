@@ -26,6 +26,9 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Override
+    public String getNombre() { return "nasaPower"; }
+
+    @Override
     public List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones) {
         if (ubicaciones.isEmpty()) return List.of();
 
