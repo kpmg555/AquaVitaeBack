@@ -1,20 +1,17 @@
 package com.aquavitae.application.usecase;
 
 import com.aquavitae.domain.models.ApiKeyInfo;
+import com.aquavitae.domain.ports.ApiKeyRepositoryPort;
 import jakarta.enterprise.context.ApplicationScoped;
-
-import java.time.LocalDate;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class RotateApiKeyUseCase {
 
+    @Inject
+    ApiKeyRepositoryPort repository;
+
     public ApiKeyInfo execute(Integer id) {
-        return new ApiKeyInfo(
-                id,
-                "API Key " + id,
-                true,
-                "2026-12-31",
-                LocalDate.now().toString()
-        );
+        return repository.rotate(id);
     }
 }
