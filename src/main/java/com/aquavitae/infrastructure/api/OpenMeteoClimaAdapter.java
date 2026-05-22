@@ -20,56 +20,52 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
     ClimaRestClient climaRestClient;
 
     @Override
+    public String getNombre() { return "openMeteo"; }
+
+    @Override
     public List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones) {
         if (ubicaciones.isEmpty()) return List.of();
+
+        String latStr = ubicaciones.stream()
+                .map(u -> String.valueOf(u.getLatitud()))
+                .collect(Collectors.joining(","));
+        String lonStr = ubicaciones.stream()
+                .map(u -> String.valueOf(u.getLongitud()))
+                .collect(Collectors.joining(","));
 
         String current = "temperature_2m,rain,evapotranspiration";
         String hourly = "soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm";
 
+        List<ClimaticResponse> responses = climaRestClient.getForecast(
+                latStr, lonStr, current, hourly, "auto");
+
         List<DatosClimaticos> resultado = new ArrayList<>();
 
-        // Hacer una llamada por cada ubicación
-        for (UbicacionClima ub : ubicaciones) {
-            try {
-                ClimaticResponse response = climaRestClient.getForecast(
-                        String.valueOf(ub.getLatitud()),
-                        String.valueOf(ub.getLongitud()),
-                        current, hourly, "auto");
+        for (int i = 0; i < ubicaciones.size(); i++) {
+            UbicacionClima ub = ubicaciones.get(i);
+            if (i >= responses.size()) break;
+            ClimaticResponse response = responses.get(i);
 
-                if (response.getCurrent() != null && response.getHourly() != null) {
-                    Double rain = response.getCurrent().getRain();
-                    Double temp = response.getCurrent().getTemperature2m();
-                    Double evap = response.getCurrent().getEvapotranspiration();
+            double rain = 0.0, temp = 0.0, evap = 0.0;
+            double ultH0_1 = 0.0, ultH1_3 = 0.0, ultH3_9 = 0.0;
 
-                    Double[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
-                    Double[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
-                    Double[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
-
-                    Double ultH0_1 = (hum0_1 != null && hum0_1.length > 0) ? hum0_1[hum0_1.length - 1] : 0.0;
-                    Double ultH1_3 = (hum1_3 != null && hum1_3.length > 0) ? hum1_3[hum1_3.length - 1] : 0.0;
-                    Double ultH3_9 = (hum3_9 != null && hum3_9.length > 0) ? hum3_9[hum3_9.length - 1] : 0.0;
-
-                    DatosClimaticos datos = new DatosClimaticos(
-                            ub.getId(),
-                            rain,
-                            ultH0_1,
-                            ultH1_3,
-                            ultH3_9,
-                            evap,
-                            temp
-                    );
-                    resultado.add(datos);
-                }
-            } catch (Exception e) {
-                System.err.println("Error obtener datos de clima para ubicación: " + ub.getId());
-                e.printStackTrace();
+            if (response.getCurrent() != null) {
+                rain = response.getCurrent().getRain() != null ? response.getCurrent().getRain() : 0.0;
+                temp = response.getCurrent().getTemperature2m() != null ? response.getCurrent().getTemperature2m() : 0.0;
+                evap = response.getCurrent().getEvapotranspiration() != null ? response.getCurrent().getEvapotranspiration() : 0.0;
             }
+            if (response.getHourly() != null) {
+                Double[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
+                Double[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
+                Double[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
+                ultH0_1 = (hum0_1 != null && hum0_1.length > 0 && hum0_1[hum0_1.length - 1] != null) ? hum0_1[hum0_1.length - 1] : 0.0;
+                ultH1_3 = (hum1_3 != null && hum1_3.length > 0 && hum1_3[hum1_3.length - 1] != null) ? hum1_3[hum1_3.length - 1] : 0.0;
+                ultH3_9 = (hum3_9 != null && hum3_9.length > 0 && hum3_9[hum3_9.length - 1] != null) ? hum3_9[hum3_9.length - 1] : 0.0;
+            }
+
+            resultado.add(new DatosClimaticos(ub.getId(), rain, ultH0_1, ultH1_3, ultH3_9, evap, temp));
         }
         return resultado;
     }
 
-    @Override
-    public String getNombre() {
-        return "openMeteo";
-    }
 }

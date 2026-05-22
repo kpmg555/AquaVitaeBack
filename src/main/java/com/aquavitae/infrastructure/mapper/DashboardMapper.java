@@ -32,10 +32,10 @@ public class DashboardMapper {
         return new DashboardRiesgo(plantas, new ResumenRiesgo(alto, medio, bajo));
     }
 
-// Clasificación simple basada en el índice hídrico corrregida
-    private static String clasificarRiesgo(Double indice) {
-        if (indice <= 0.3) return "BAJO";
-        if (indice <= 0.6) return "MEDIO";
-        return "ALTO";
-    }
+ private static String clasificarRiesgo(double indice) {
+          if (indice >= 0.70) return "ALTO";
+          if (indice >= 0.45) return "MEDIO";
+          return "BAJO"; 
+      }
+    
 }

@@ -32,7 +32,7 @@ public class EvolucionRepositoryImpl implements EvolucionRepository {
         List<EvolucionHidrica.PuntoDiario> puntos = rows.stream()
                 .map(row -> new EvolucionHidrica.PuntoDiario(
                         ((java.sql.Date) row[0]).toLocalDate(),
-                        (Double) row[1]
+((Number) row[1]).doubleValue()
                 ))
                 .collect(Collectors.toList());
 

@@ -28,6 +28,9 @@ public class SmnClimaAdapter implements FuenteClimaPort {
     private static final int CACHE_MINUTES = 15; // la API se actualiza cada 1h 15min
 
     @Override
+    public String getNombre() { return "smn"; }
+
+    @Override
     public List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones) {
         if (ubicaciones.isEmpty()) return List.of();
 
@@ -63,11 +66,6 @@ public class SmnClimaAdapter implements FuenteClimaPort {
             }
         }
         return resultado;
-    }
-
-    @Override
-    public String getNombre() {
-        return "smn";
     }
 
     private void cargarCache() {
