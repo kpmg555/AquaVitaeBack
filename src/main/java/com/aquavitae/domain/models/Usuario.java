@@ -1,35 +1,30 @@
-package com.aquavitae.infrastructure.entities;
+package com.aquavitae.domain.models;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-@Entity
-@Table(name = "Usuario")
-public class UsuarioEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Usuario {
     private Integer id;
-    @Column(nullable = false, unique = true, length = 36)
     private String uuid;
-    @Column(nullable = false, length = 100)
     private String nombre;
-    @Column(nullable = false, length = 100)
     private String apellido;
-    @Column(nullable = false, unique = true, length = 100)
     private String correo;
-    @Column(length = 20)
     private String telefono;
-    @Column(name = "id_empresa", nullable = false)
     private Integer idEmpresa;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol")
-    private RolEntity rol;
-    @Column(nullable = false)
-    private boolean activo = true;
-    @Column(name = "ultimo_acceso")
+    private String nombreEmpresa;
+    private Integer idRol;
+    private String nombreRol;
+    private boolean activo;
     private LocalDateTime ultimoAcceso;
 
-    // getters/setters
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy, h:mm a",
+            new Locale("es", "MX"));
+
+    public Usuario() {
+    }
+
+    // Getters y Setters
     public Integer getId() {
         return id;
     }
@@ -86,12 +81,28 @@ public class UsuarioEntity {
         this.idEmpresa = idEmpresa;
     }
 
-    public RolEntity getRol() {
-        return rol;
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
     }
 
-    public void setRol(RolEntity rol) {
-        this.rol = rol;
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public Integer getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(Integer idRol) {
+        this.idRol = idRol;
+    }
+
+    public String getNombreRol() {
+        return nombreRol;
+    }
+
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
 
     public boolean isActivo() {
@@ -108,5 +119,17 @@ public class UsuarioEntity {
 
     public void setUltimoAcceso(LocalDateTime ultimoAcceso) {
         this.ultimoAcceso = ultimoAcceso;
+    }
+
+    public String getNombreCompleto() {
+        return nombre + " " + apellido;
+    }
+
+    public String getUltimoAccesoFormateado() {
+        if (ultimoAcceso == null)
+            return "—";
+        return ultimoAcceso.format(FORMATTER)
+                .replace("a. m.", "a.m.")
+                .replace("p. m.", "p.m.");
     }
 }

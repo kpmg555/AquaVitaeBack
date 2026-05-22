@@ -1,8 +1,7 @@
-package org.acme.infrastructure.mapper;
+package com.aquavitae.infrastructure.mapper;
 
-import org.acme.domain.models.Usuario;
-import org.acme.infrastructure.entities.UsuarioEntity;
-import org.hibernate.Hibernate;
+import com.aquavitae.domain.models.Usuario;
+import com.aquavitae.infrastructure.entities.UsuarioEntity;
 
 public class UsuarioMapper {
 
@@ -17,22 +16,10 @@ public class UsuarioMapper {
         u.setIdEmpresa(e.getIdEmpresa());
         u.setActivo(e.isActivo());
         u.setUltimoAcceso(e.getUltimoAcceso());
-
-        if (e.getRol() != null && Hibernate.isInitialized(e.getRol())) {
+        if (e.getRol() != null) {
             u.setIdRol(e.getRol().getId());
             u.setNombreRol(e.getRol().getNombre());
         }
-
-        if (e.getPlanta() != null && Hibernate.isInitialized(e.getPlanta())) {
-            u.setIdPlanta(e.getPlanta().getId());
-            u.setNombrePlanta(e.getPlanta().getNombre());
-        }
-
-        if (e.getRegion() != null && Hibernate.isInitialized(e.getRegion())) {
-            u.setIdRegion(e.getRegion().getId());
-            u.setNombreRegion(e.getRegion().getNombre());
-        }
-
         return u;
     }
 
@@ -47,9 +34,7 @@ public class UsuarioMapper {
         e.setIdEmpresa(u.getIdEmpresa());
         e.setActivo(u.isActivo());
         e.setUltimoAcceso(u.getUltimoAcceso());
-        // rol, planta y region se asocian por referencia en el repositorio
+        // rol se asigna por separado en el repositorio
         return e;
     }
-
-    private UsuarioMapper() {}
 }

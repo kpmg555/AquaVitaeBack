@@ -1,15 +1,17 @@
-package com.aquavitae.domain.models;
+package com.aquavitae.application.dto;
 
 import java.util.List;
 
-public class Rol {
+public class RolDto {
     private Integer id;
     private String nombre;
     private String descripcion;
     private List<String> permisos;
     private int totalPermisos;
 
-    // getters/setters
+    public RolDto() {
+    }
+
     public Integer getId() {
         return id;
     }

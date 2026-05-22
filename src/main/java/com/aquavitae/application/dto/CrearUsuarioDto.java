@@ -1,4 +1,4 @@
-package org.acme.application.dto;
+package com.aquavitae.application.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,64 +6,76 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CrearUsuarioDto {
-
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank
     private String nombre;
-
-    @NotBlank(message = "El apellido es obligatorio")
+    @NotBlank
     private String apellido;
-
-    @NotBlank(message = "El correo es obligatorio")
-    @Email(message = "El correo no tiene un formato válido")
+    @NotBlank
+    @Email
     private String correo;
-
     private String telefono;
-
-    @NotNull(message = "El rol es obligatorio")
+    @NotNull
     private Integer idRol;
-
-    @NotBlank(message = "La contraseña temporal es obligatoria")
-    @Size(min = 12, message = "La contraseña debe tener al menos 8 caracteres")
-    @Pattern.List({
-        @Pattern(regexp = ".*[A-Z].*", message = "La contraseña debe contener al menos una letra mayúscula"),
-        @Pattern(regexp = ".*[a-z].*", message = "La contraseña debe contener al menos una letra minúscula"),
-        @Pattern(regexp = ".*\\d.*", message = "La contraseña debe contener al menos un número"),
-        @Pattern(regexp = ".*[@$!%*?&].*", message = "La contraseña debe contener al menos un carácter especial (@$!%*?&)")
-    })
+    @NotNull
+    private Integer idEmpresa;
+    @NotBlank
+    @Size(min = 8)
     private String contrasenaTemp;
 
-    @NotBlank(message = "Se debe seleccionar la planta o región de donde proviene el usuario")
-    private String alcanceDatos;
+    // getters/setters
+    public String getNombre() {
+        return nombre;
+    }
 
-    private Integer idPlanta;  
-    private Integer idRegion;  
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public CrearUsuarioDto() {}
+    public String getApellido() {
+        return apellido;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre){ this.nombre = nombre; }
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
-    public String getApellido() { return apellido; }
-    public void setApellido(String apellido){ this.apellido = apellido; }
+    public String getCorreo() {
+        return correo;
+    }
 
-    public String getCorreo(){ return correo; }
-    public void setCorreo(String correo){ this.correo = correo; }
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono){ this.telefono = telefono; }
+    public String getTelefono() {
+        return telefono;
+    }
 
-    public Integer getIdRol() { return idRol; }
-    public void setIdRol(Integer idRol){ this.idRol = idRol; }
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
-    public String getContrasenaTemp(){ return contrasenaTemp; }
-    public void setContrasenaTemp(String contrasenaTemp) { this.contrasenaTemp = contrasenaTemp; }
+    public Integer getIdRol() {
+        return idRol;
+    }
 
-    public String getAlcanceDatos(){ return alcanceDatos; }
-    public void setAlcanceDatos(String alcanceDatos){ this.alcanceDatos = alcanceDatos; }
+    public void setIdRol(Integer idRol) {
+        this.idRol = idRol;
+    }
 
-    public Integer getIdPlanta(){ return idPlanta; }
-    public void setIdPlanta(Integer idPlanta){ this.idPlanta = idPlanta; }
+    public Integer getIdEmpresa() {
+        return idEmpresa;
+    }
 
-    public Integer getIdRegion() { return idRegion; }
-    public void setIdRegion(Integer idRegion){ this.idRegion = idRegion; }
+    public void setIdEmpresa(Integer idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public String getContrasenaTemp() {
+        return contrasenaTemp;
+    }
+
+    public void setContrasenaTemp(String contrasenaTemp) {
+        this.contrasenaTemp = contrasenaTemp;
+    }
 }
