@@ -1,18 +1,19 @@
 package com.aquavitae.infrastructure.api;
 
+import com.aquavitae.domain.models.DatosClimaticos;
+import com.aquavitae.domain.models.UbicacionClima;
+import com.aquavitae.domain.ports.ApiMonitorRepositoryPort;
+import com.aquavitae.domain.ports.FuenteClimaPort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import com.aquavitae.domain.models.DatosClimaticos;
-import com.aquavitae.domain.models.UbicacionClima;
-import com.aquavitae.domain.ports.FuenteClimaPort;
+import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 @Named("nasaPower")
@@ -21,12 +22,18 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
     @Inject
     @RestClient
     NasaPowerRestClient nasaPowerRestClient;
+
+    @Inject
+    ApiMonitorRepositoryPort apiMonitorRepository;
+
     private static final String PARAMETERS = "T2M,PRECTOTCORR,RH2M";
-    private static final String COMMUNITY = "AG"; // Agroclimatology
+    private static final String COMMUNITY = "AG";
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Override
-    public String getNombre() { return "nasaPower"; }
+    public String getNombre() {
+        return "nasaPower";
+    }
 
     @Override
     public List<DatosClimaticos> obtenerDatos(List<UbicacionClima> ubicaciones) {
@@ -39,37 +46,80 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
         List<DatosClimaticos> resultado = new ArrayList<>();
 
         for (UbicacionClima ub : ubicaciones) {
-            NasaPowerResponse response = nasaPowerRestClient.getDailyData(
-                    PARAMETERS,
-                    COMMUNITY,
-                    ub.getLongitud(),
-                    ub.getLatitud(),
-                    fechaInicio,
-                    fechaFin,
-                    "JSON"
-            );
+            try {
+                NasaPowerResponse response = nasaPowerRestClient.getDailyData(
+                        PARAMETERS,
+                        COMMUNITY,
+                        ub.getLongitud(),
+                        ub.getLatitud(),
+                        fechaInicio,
+                        fechaFin,
+                        "JSON"
+                );
 
-            Double temperatura = response.getParameterValue("T2M") != null
-                    ? response.getParameterValue("T2M").doubleValue() : 0.0;
-            Double precipitacion = response.getParameterValue("PRECTOTCORR") != null
-                    ? response.getParameterValue("PRECTOTCORR").doubleValue() : 0.0;
-            Double humedadRelativa = response.getParameterValue("RH2M") != null
-                    ? response.getParameterValue("RH2M").doubleValue() : 0.0;
-            Double humedadSuelo = humedadRelativa / 100.0;   // normalizar [0,1]
+                apiMonitorRepository.registerSuccess(
+                        "NASA POWER",
+                        "https://power.larc.nasa.gov",
+                        "GET",
+                        "/api/temporal/daily/point"
+                );
 
-            DatosClimaticos datos = new DatosClimaticos(
-                    ub.getId(),
-                    precipitacion,
-                    humedadSuelo / 3,    // capa 0–1 cm
-                    humedadSuelo / 3,    // capa 1–3 cm
-                    humedadSuelo / 3,    // capa 3–9 cm
-                    0.0,                   // evapotranspiración no disponible
-                    temperatura
-            );
-            resultado.add(datos);
+                Double temperatura = response.getParameterValue("T2M") != null
+                        ? response.getParameterValue("T2M").doubleValue()
+                        : 0.0;
+
+                Double precipitacion = response.getParameterValue("PRECTOTCORR") != null
+                        ? response.getParameterValue("PRECTOTCORR").doubleValue()
+                        : 0.0;
+
+                Double humedadRelativa = response.getParameterValue("RH2M") != null
+                        ? response.getParameterValue("RH2M").doubleValue()
+                        : 0.0;
+
+                Double humedadSuelo = humedadRelativa / 100.0;
+
+                DatosClimaticos datos = new DatosClimaticos(
+                        ub.getId(),
+                        precipitacion,
+                        humedadSuelo / 3,
+                        humedadSuelo / 3,
+                        humedadSuelo / 3,
+                        0.0,
+                        temperatura
+                );
+
+                resultado.add(datos);
+
+            } catch (WebApplicationException e) {
+                int statusCode = e.getResponse() != null
+                        ? e.getResponse().getStatus()
+                        : 500;
+
+                apiMonitorRepository.registerError(
+                        "NASA POWER",
+                        "https://power.larc.nasa.gov",
+                        "GET",
+                        "/api/temporal/daily/point",
+                        statusCode,
+                        e.getMessage()
+                );
+
+                throw e;
+
+            } catch (Exception e) {
+                apiMonitorRepository.registerError(
+                        "NASA POWER",
+                        "https://power.larc.nasa.gov",
+                        "GET",
+                        "/api/temporal/daily/point",
+                        500,
+                        e.getMessage()
+                );
+
+                throw e;
+            }
         }
 
         return resultado;
     }
-
 }

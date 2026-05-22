@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -50,13 +51,16 @@ public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
                         rs.getString("nombre_api"),
                         rs.getString("endpoint"),
                         rs.getString("estado"),
-                        rs.getObject("codigo_error") != null ? rs.getInt("codigo_error") : null,
+                        rs.getObject("codigo_error") != null
+                                ? rs.getInt("codigo_error")
+                                : null,
                         rs.getString("mensaje"),
                         rs.getInt("ocurrencias")
                 ));
             }
 
             return result;
+
         } catch (Exception e) {
             throw new RuntimeException("Error loading API status from database", e);
         }
@@ -84,9 +88,12 @@ public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
                 ResultSet rs = statement.executeQuery(sql)
         ) {
             while (rs.next()) {
+
                 int code = rs.getInt("codigo_error");
 
-                String severidad = code == 401 ? "CRITICA" : "ALTA";
+                String severidad = code == 401
+                        ? "CRITICA"
+                        : "ALTA";
 
                 result.add(new ApiAlert(
                         rs.getString("nombre_api"),
@@ -98,8 +105,124 @@ public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
             }
 
             return result;
+
         } catch (Exception e) {
             throw new RuntimeException("Error loading API alerts from database", e);
+        }
+    }
+
+    @Override
+    public void registerSuccess(
+            String nombreApi,
+            String url,
+            String metodo,
+            String endpoint
+    ) {
+
+        String sql = """
+                INSERT INTO Monitor_API
+                (
+                    nombre_api,
+                    url,
+                    metodo,
+                    endpoint,
+                    estado,
+                    codigo_error,
+                    mensaje,
+                    ocurrencias,
+                    resuelto,
+                    ultimo_ok
+                )
+                VALUES
+                (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    'OK',
+                    200,
+                    'API funcionando correctamente',
+                    0,
+                    TRUE,
+                    CURRENT_TIMESTAMP
+                )
+                """;
+
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+
+            statement.setString(1, nombreApi);
+            statement.setString(2, url);
+            statement.setString(3, metodo);
+            statement.setString(4, endpoint);
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error registering API success", e);
+        }
+    }
+
+    @Override
+    public void registerError(
+            String nombreApi,
+            String url,
+            String metodo,
+            String endpoint,
+            Integer codigoError,
+            String mensaje
+    ) {
+
+        String sql = """
+                INSERT INTO Monitor_API
+                (
+                    nombre_api,
+                    url,
+                    metodo,
+                    endpoint,
+                    estado,
+                    codigo_error,
+                    mensaje,
+                    ocurrencias,
+                    resuelto
+                )
+                VALUES
+                (
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    'ERROR',
+                    ?,
+                    ?,
+                    1,
+                    FALSE
+                )
+                """;
+
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+
+            statement.setString(1, nombreApi);
+            statement.setString(2, url);
+            statement.setString(3, metodo);
+            statement.setString(4, endpoint);
+
+            statement.setInt(
+                    5,
+                    codigoError != null ? codigoError : 500
+            );
+
+            statement.setString(6, mensaje);
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error registering API error", e);
         }
     }
 }

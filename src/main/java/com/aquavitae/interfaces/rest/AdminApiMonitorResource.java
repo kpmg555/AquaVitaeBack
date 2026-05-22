@@ -1,6 +1,7 @@
 package com.aquavitae.interfaces.rest;
 
 import com.aquavitae.application.usecase.GetApiAlertsUseCase;
+import com.aquavitae.application.usecase.CheckExternalApisUseCase;
 import com.aquavitae.application.usecase.GetApiKeysUseCase;
 import com.aquavitae.application.usecase.GetApiStatusUseCase;
 import com.aquavitae.application.usecase.RotateApiKeyUseCase;
@@ -26,6 +27,9 @@ public class AdminApiMonitorResource {
     @Inject
     RotateApiKeyUseCase rotateApiKeyUseCase;
 
+    @Inject
+    CheckExternalApisUseCase checkExternalApisUseCase;
+
     @GET
     @Path("/status")
     public Response getStatus() {
@@ -42,6 +46,13 @@ public class AdminApiMonitorResource {
     @Path("/keys")
     public Response getApiKeys() {
         return Response.ok(getApiKeysUseCase.execute()).build();
+    }
+
+    @POST
+    @Path("/check")
+    public Response checkApis() {
+        checkExternalApisUseCase.execute();
+        return Response.ok().build();
     }
 
     @POST

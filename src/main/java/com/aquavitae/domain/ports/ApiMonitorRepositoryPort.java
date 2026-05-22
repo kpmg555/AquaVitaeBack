@@ -8,4 +8,7 @@ import java.util.List;
 public interface ApiMonitorRepositoryPort {
     List<ApiMonitorStatus> findStatus();
     List<ApiAlert> findActiveAlerts();
+
+    void registerSuccess(String nombreApi, String url, String metodo, String endpoint);
+    void registerError(String nombreApi, String url, String metodo, String endpoint, Integer codigoError, String mensaje);
 }
