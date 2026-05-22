@@ -29,14 +29,14 @@ public class SimulacionRepositoryImpl implements SimulacionRepository {
     @Override
     public ProyeccionHidrica obtenerProyeccion(Integer plantaId, int dias) {
         EstadoPlantaEntity estado = obtenerUltimoEstado(plantaId);
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
         return GenerarProyeccionService.generar(indice, dias);
     }
 
     @Override
     public EscenarioRecuperacion obtenerRecuperacion(Integer plantaId, int dias) {
         EstadoPlantaEntity estado = obtenerUltimoEstado(plantaId);
-        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico() : 0f;
+        float indice = estado.getIndiceHidrico() != null ? estado.getIndiceHidrico().floatValue() : 0f;
         ProyeccionHidrica proyeccion = GenerarProyeccionService.generar(indice, dias);
         return GenerarRecuperacionService.generar(proyeccion.getPeakValue(), dias);
     }
