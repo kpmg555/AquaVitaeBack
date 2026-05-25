@@ -9,6 +9,7 @@ public class Usuario {
     private String uuid;
     private String nombre;
     private String apellido;
+    private String nombreUsuario;
     private String correo;
     private String telefono;
     private Integer idEmpresa;
@@ -16,6 +17,8 @@ public class Usuario {
     private Integer idRol;
     private String nombreRol;
     private boolean activo;
+    private String alcanceDatos;
+    private Integer idPlantaAsignada;
     private LocalDateTime ultimoAcceso;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy, h:mm a",
@@ -55,6 +58,14 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getCorreo() {
@@ -111,6 +122,22 @@ public class Usuario {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public String getAlcanceDatos() {
+        return alcanceDatos;
+    }
+
+    public void setAlcanceDatos(String alcanceDatos) {
+        this.alcanceDatos = alcanceDatos;
+    }
+
+    public Integer getIdPlantaAsignada() {
+        return idPlantaAsignada;
+    }
+
+    public void setIdPlantaAsignada(Integer idPlantaAsignada) {
+        this.idPlantaAsignada = idPlantaAsignada;
     }
 
     public LocalDateTime getUltimoAcceso() {
