@@ -32,12 +32,16 @@ public class AuthResource {
 
             return Response.ok(Map.of(
                     "uid", user.getUid(),
-                    "email", user.getEmail()
+                    "email", user.getEmail(),
+                    "nombre", user.getNombre(),
+                    "apellido", user.getApellido(),
+                    "rol", user.getRol(),
+                    "permisos", user.getPermisos()
             )).build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity(Map.of("error", "Invalid Firebase token"))
+                    .entity(Map.of("error", e.getMessage()))
                     .build();
         }
     }
