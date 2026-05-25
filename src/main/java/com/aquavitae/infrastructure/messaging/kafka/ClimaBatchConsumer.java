@@ -4,6 +4,7 @@ import com.aquavitae.domain.models.DatosClimaticos;
 import com.aquavitae.domain.models.UbicacionClima;
 import com.aquavitae.infrastructure.api.ClimaRestClient;
 import com.aquavitae.infrastructure.api.ClimaticResponse;
+import java.util.List;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -25,10 +26,12 @@ public class ClimaBatchConsumer {
         String hourly = "soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm";
 
         try {
-            ClimaticResponse response = climaRestClient.getForecast(
+            List<ClimaticResponse> responses = climaRestClient.getForecast(
                     String.valueOf(ub.getLatitud()),
                     String.valueOf(ub.getLongitud()),
                     current, hourly, "auto");
+            if (responses == null || responses.isEmpty()) return;
+            ClimaticResponse response = responses.get(0);
 
             if (response.getCurrent() == null || response.getHourly() == null)
                 return;
