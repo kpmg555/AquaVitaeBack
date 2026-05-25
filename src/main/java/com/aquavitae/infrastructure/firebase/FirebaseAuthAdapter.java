@@ -63,6 +63,22 @@ public class FirebaseAuthAdapter implements FirebaseAuthPort {
     }
 
     @Override
+    public void actualizarUsuario(String uuid, String correo, String nombreCompleto, String nuevaContrasena) {
+        try {
+            UserRecord.UpdateRequest request = new UserRecord.UpdateRequest(uuid)
+                    .setEmail(correo)
+                    .setDisplayName(nombreCompleto);
+            if (nuevaContrasena != null && !nuevaContrasena.isBlank()) {
+                request.setPassword(nuevaContrasena);
+            }
+            FirebaseAuth.getInstance().updateUser(request);
+            LOG.infof("Usuario actualizado en Firebase: uid=%s", uuid);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar usuario en Firebase: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
     public Map<String, String> getUltimoAccesoBatch(List<String> uuids) {
         Map<String, String> resultado = new HashMap<>();
         if (uuids == null || uuids.isEmpty())

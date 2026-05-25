@@ -15,6 +15,8 @@ public class UsuarioEntity {
     private String nombre;
     @Column(nullable = false, length = 100)
     private String apellido;
+    @Column(name = "nombre_usuario", length = 50, unique = true)
+    private String nombreUsuario;
     @Column(nullable = false, unique = true, length = 100)
     private String correo;
     @Column(length = 20)
@@ -26,6 +28,10 @@ public class UsuarioEntity {
     private RolEntity rol;
     @Column(nullable = false)
     private boolean activo = true;
+    @Column(name = "alcance_datos", length = 20)
+    private String alcanceDatos = "TODAS";
+    @Column(name = "id_planta_asignada")
+    private Integer idPlantaAsignada;
     @Column(name = "ultimo_acceso")
     private LocalDateTime ultimoAcceso;
 
@@ -60,6 +66,14 @@ public class UsuarioEntity {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getCorreo() {
@@ -100,6 +114,22 @@ public class UsuarioEntity {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public String getAlcanceDatos() {
+        return alcanceDatos;
+    }
+
+    public void setAlcanceDatos(String alcanceDatos) {
+        this.alcanceDatos = alcanceDatos;
+    }
+
+    public Integer getIdPlantaAsignada() {
+        return idPlantaAsignada;
+    }
+
+    public void setIdPlantaAsignada(Integer idPlantaAsignada) {
+        this.idPlantaAsignada = idPlantaAsignada;
     }
 
     public LocalDateTime getUltimoAcceso() {

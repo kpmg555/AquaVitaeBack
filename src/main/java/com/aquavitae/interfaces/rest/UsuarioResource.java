@@ -28,6 +28,8 @@ public class UsuarioResource {
     @Inject
     GenerarContrasenaUseCase generarContrasenaUseCase;
     @Inject
+    EditarUsuarioUseCase editarUsuarioUseCase;
+    @Inject
     EmpresaRepository empresaRepository;
 
     @GET
@@ -47,6 +49,23 @@ public class UsuarioResource {
         try {
             return Response.status(Response.Status.CREATED)
                     .entity(crearUsuarioUseCase.execute(dto)).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(new ErrorResponse(e.getMessage())).build();
+        } catch (RuntimeException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new ErrorResponse("Error: " + e.getMessage())).build();
+        }
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response editar(@PathParam("id") Integer id, @Valid EditarUsuarioDto dto) {
+        try {
+            return Response.ok(editarUsuarioUseCase.execute(id, dto)).build();
+        } catch (NoSuchElementException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new ErrorResponse(e.getMessage())).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.CONFLICT)
                     .entity(new ErrorResponse(e.getMessage())).build();
