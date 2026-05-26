@@ -21,8 +21,9 @@ public class SimulacionRepositoryImpl implements SimulacionRepository {
 
     @Override
     public KpiSimulacion obtenerKpis(Integer plantaId) {
-        EstadoPlantaEntity estado = obtenerUltimoEstado(plantaId);
-        PlantaEntity planta = em.find(PlantaEntity.class, plantaId);
+        Integer id = resolverPlantaId(plantaId);
+        EstadoPlantaEntity estado = obtenerUltimoEstado(id);
+        PlantaEntity planta = em.find(PlantaEntity.class, id);
         return SimulacionMapper.toKpiSimulacion(estado, planta);
     }
 
@@ -41,7 +42,16 @@ public class SimulacionRepositoryImpl implements SimulacionRepository {
         return GenerarRecuperacionService.generar(proyeccion.getPeakValue(), dias);
     }
 
+    private Integer resolverPlantaId(Integer plantaId) {
+        if (plantaId != null) return plantaId;
+        return em.createQuery("SELECT p.id FROM PlantaEntity p ORDER BY p.id ASC", Integer.class)
+                .setMaxResults(1)
+                .getResultList()
+                .stream().findFirst().orElse(1);
+    }
+
     private EstadoPlantaEntity obtenerUltimoEstado(Integer plantaId) {
+        Integer id = resolverPlantaId(plantaId);
         return em.createQuery("""
                 SELECT ep FROM EstadoPlantaEntity ep
                 WHERE ep.planta.id = :plantaId
@@ -51,7 +61,7 @@ public class SimulacionRepositoryImpl implements SimulacionRepository {
                     WHERE e2.planta.id = :plantaId
                 )
                 """, EstadoPlantaEntity.class)
-                .setParameter("plantaId", plantaId)
+                .setParameter("plantaId", id)
                 .setMaxResults(1)
                 .getSingleResult();
     }

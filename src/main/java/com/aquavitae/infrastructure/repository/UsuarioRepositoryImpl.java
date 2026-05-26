@@ -121,7 +121,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         u.setNombreEmpresa((String) row[7]);
         u.setIdRol(((Number) row[8]).intValue());
         u.setNombreRol((String) row[9]);
-        u.setActivo(((Number) row[10]).intValue() == 1);
+        u.setActivo(row[10] instanceof Boolean ? (Boolean) row[10] : ((Number) row[10]).intValue() == 1);
         if (row[11] != null) {
             u.setUltimoAcceso(((java.sql.Timestamp) row[11]).toLocalDateTime());
         }

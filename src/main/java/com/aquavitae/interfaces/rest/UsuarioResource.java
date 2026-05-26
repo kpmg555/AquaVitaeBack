@@ -1,6 +1,5 @@
 package com.aquavitae.interfaces.rest;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -11,10 +10,9 @@ import com.aquavitae.application.usecase.*;
 import com.aquavitae.domain.repository.EmpresaRepository;
 import java.util.NoSuchElementException;
 
-@Path("/usuarios")
+@Path("/api/usuarios")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed("Administrador")
 public class UsuarioResource {
 
     @Inject
