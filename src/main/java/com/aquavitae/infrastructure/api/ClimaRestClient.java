@@ -1,5 +1,6 @@
 package com.aquavitae.infrastructure.api;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -7,6 +8,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import java.util.List;
 
 @Path("/v1/forecast")
+@ApplicationScoped
 @RegisterRestClient(configKey = "open-meteo-api")
 public interface ClimaRestClient {
     @GET
@@ -15,6 +17,5 @@ public interface ClimaRestClient {
             @QueryParam("longitude") String longitude,
             @QueryParam("current") String current,
             @QueryParam("hourly") String hourly,
-            @QueryParam("timezone") String timezone
-    );
+            @QueryParam("timezone") String timezone);
 }
