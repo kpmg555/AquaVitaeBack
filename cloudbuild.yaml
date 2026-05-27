@@ -1,6 +1,6 @@
 steps:
 - name: 'maven:3.9-eclipse-temurin-17'
-  args: ['mvn', 'package', '-DskipTests']
+  args: ['mvn', 'clean', 'package', '-DskipTests']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'src/main/docker/Dockerfile.jvm', '-t', 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest', '.']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -13,6 +13,7 @@ steps:
   - --region=us-central1
   - --project=aquavitaeback
   - --platform=managed
+  - --update-secrets=/deployments/src/main/resources/aquavitae-76bfa-firebase-adminsdk-fbsvc-56778c9f37.json=firebase-creds:latest
   - --quiet
 images:
 - 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest'

@@ -1,0 +1,8 @@
+# Excluir artefactos de compilación (pesados e innecesarios)
+target/
+.git/
+.idea/
+*.iml
+.DS_Store
+
+# Los archivos JSON de credenciales SÍ se incluyen (necesarios para Cloud Run)
