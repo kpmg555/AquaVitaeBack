@@ -6,6 +6,9 @@ import com.aquavitae.infrastructure.entities.UsuarioEntity;
 public class UsuarioMapper {
 
     public static Usuario toDomain(UsuarioEntity e) {
+        if (e == null) {
+            return null;
+        }
         Usuario u = new Usuario();
         u.setId(e.getId());
         u.setUuid(e.getUuid());
@@ -27,6 +30,9 @@ public class UsuarioMapper {
     }
 
     public static UsuarioEntity toEntity(Usuario u) {
+        if (u == null) {
+            return null;
+        }
         UsuarioEntity e = new UsuarioEntity();
         e.setId(u.getId());
         e.setUuid(u.getUuid());
@@ -40,7 +46,7 @@ public class UsuarioMapper {
         e.setAlcanceDatos(u.getAlcanceDatos() != null ? u.getAlcanceDatos() : "TODAS");
         e.setIdPlantaAsignada(u.getIdPlantaAsignada());
         e.setUltimoAcceso(u.getUltimoAcceso());
-        // rol se asigna por separado en el repositorio
+        // El rol se asigna por separado en el repositorio
         return e;
     }
 }
