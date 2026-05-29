@@ -52,16 +52,16 @@ public class ListarUsuariosUseCase {
                 .filter(uuid -> uuid != null && !uuid.isBlank())
                 .collect(Collectors.toList());
 
-        Map<String, String> ultimosAccesos = firebaseAuthPort.getUltimoAccesoBatch(uuids);
+        Map<String, String> accesosFirebase = firebaseAuthPort.getUltimoAccesoBatch(uuids);
 
         List<UsuarioDto> dtos = usuarios.stream()
-                .map(u -> toDto(u, ultimosAccesos))
+                .map(u -> toDto(u, accesosFirebase))
                 .collect(Collectors.toList());
 
         return new PagedResponse<>(dtos, total, page, size);
     }
 
-    private UsuarioDto toDto(Usuario u, Map<String, String> accesos) {
+    private UsuarioDto toDto(Usuario u, Map<String, String> accesosFirebase) {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(u.getId());
         dto.setNombreCompleto(u.getNombreCompleto());
@@ -70,7 +70,21 @@ public class ListarUsuariosUseCase {
         dto.setIdRol(u.getIdRol());
         dto.setActivo(u.isActivo());
         dto.setNombreEmpresa(u.getNombreEmpresa());
-        dto.setUltimoAcceso(accesos.getOrDefault(u.getUuid(), "—"));
+
+        String firebaseFecha = accesosFirebase.getOrDefault(u.getUuid(), null);
+        String fechaFinal = null;
+
+        if (firebaseFecha != null && !firebaseFecha.equals("—") && !firebaseFecha.equals("Nunca")) {
+            fechaFinal = firebaseFecha;
+        } else {
+            if (u.getUltimoAcceso() != null) {
+                fechaFinal = u.getUltimoAccesoFormateado();
+            } else {
+                fechaFinal = "—";
+            }
+        }
+
+        dto.setUltimoAcceso(fechaFinal);
         return dto;
     }
 }
