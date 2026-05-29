@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 public class CrearUsuarioDto {
     @NotBlank
@@ -21,6 +22,8 @@ public class CrearUsuarioDto {
     @NotBlank
     @Size(min = 8)
     private String contrasenaTemp;
+    // null = usar permisos del rol; lista = permisos personalizados desde creación
+    private List<String> modulos;
 
     // getters/setters
     public String getNombre() {
@@ -77,5 +80,13 @@ public class CrearUsuarioDto {
 
     public void setContrasenaTemp(String contrasenaTemp) {
         this.contrasenaTemp = contrasenaTemp;
+    }
+
+    public List<String> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(List<String> modulos) {
+        this.modulos = modulos;
     }
 }

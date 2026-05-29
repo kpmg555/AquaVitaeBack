@@ -13,6 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -123,5 +126,33 @@ class CrearUsuarioUseCaseTest {
         assertEquals("Error al guardar en BD", ex.getMessage());
 
         verify(firebaseAuthPort).deshabilitarUsuario(firebaseUuid);
+    }
+
+    @Test
+    void execute_withModulos_passesModulosToSavedUser() {
+        List<String> modulos = Arrays.asList("Inventario", "Reportes");
+        dto.setModulos(modulos);
+
+        when(usuarioRepository.existsByCorreo(dto.getCorreo())).thenReturn(false);
+        when(firebaseAuthPort.crearUsuario(any(), any(), any())).thenReturn(firebaseUuid);
+
+        Usuario savedUsuario = new Usuario();
+        savedUsuario.setId(101);
+        savedUsuario.setUuid(firebaseUuid);
+        savedUsuario.setNombre(dto.getNombre());
+        savedUsuario.setApellido(dto.getApellido());
+        savedUsuario.setCorreo(dto.getCorreo());
+        savedUsuario.setIdRol(dto.getIdRol());
+        savedUsuario.setActivo(true);
+        savedUsuario.setModulosPersonalizados(modulos);
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(savedUsuario);
+
+        UsuarioDto result = useCase.execute(dto);
+
+        ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
+        verify(usuarioRepository).save(captor.capture());
+        assertEquals(modulos, captor.getValue().getModulosPersonalizados());
+
+        assertEquals(modulos, result.getModulosEfectivos());
     }
 }

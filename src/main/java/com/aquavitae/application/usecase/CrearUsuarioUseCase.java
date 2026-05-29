@@ -40,6 +40,9 @@ public class CrearUsuarioUseCase {
         usuario.setIdRol(dto.getIdRol());
         usuario.setIdEmpresa(dto.getIdEmpresa());
         usuario.setActivo(true);
+        if (dto.getModulos() != null) {
+            usuario.setModulosPersonalizados(dto.getModulos());
+        }
 
         try {
             usuario = usuarioRepository.save(usuario);
@@ -63,6 +66,9 @@ public class CrearUsuarioUseCase {
         dto.setIdRol(u.getIdRol());
         dto.setActivo(u.isActivo());
         dto.setNombreEmpresa(u.getNombreEmpresa());
+        if (u.getModulosPersonalizados() != null) {
+            dto.setModulosEfectivos(u.getModulosPersonalizados());
+        }
         return dto;
     }
 }

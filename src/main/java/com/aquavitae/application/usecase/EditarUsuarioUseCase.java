@@ -37,6 +37,11 @@ public class EditarUsuarioUseCase {
         usuario.setAlcanceDatos(dto.getAlcanceDatos() != null ? dto.getAlcanceDatos() : "TODAS");
         usuario.setIdPlantaAsignada(dto.getIdPlantaAsignada());
 
+        // Actualizar permisos solo si el frontend los envió
+        if (dto.getModulos() != null) {
+            usuario.setModulosPersonalizados(dto.getModulos());
+        }
+
         usuario = usuarioRepository.save(usuario);
 
         firebaseAuthPort.actualizarUsuario(
@@ -56,6 +61,9 @@ public class EditarUsuarioUseCase {
         dto.setIdRol(u.getIdRol());
         dto.setActivo(u.isActivo());
         dto.setNombreEmpresa(u.getNombreEmpresa());
+        if (u.getModulosPersonalizados() != null) {
+            dto.setModulosEfectivos(u.getModulosPersonalizados());
+        }
         return dto;
     }
 }

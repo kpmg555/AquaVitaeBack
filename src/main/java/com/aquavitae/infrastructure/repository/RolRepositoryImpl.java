@@ -20,10 +20,12 @@ public class RolRepositoryImpl implements RolRepository {
 
     @Override
     public List<Rol> findAll() {
-        return em.createQuery("SELECT r FROM RolEntity r", RolEntity.class)
+        return em.createQuery(
+                "SELECT DISTINCT r FROM RolEntity r LEFT JOIN FETCH r.permisos",
+                RolEntity.class)
                 .getResultList()
                 .stream()
-                .map(this::toDomain)
+                .map(this::toDomainWithPermisos)
                 .collect(Collectors.toList());
     }
 
