@@ -3,6 +3,7 @@ package com.aquavitae.application.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public class EditarUsuarioDto {
     @NotBlank
@@ -20,6 +21,8 @@ public class EditarUsuarioDto {
     private String nuevaContrasena;
     private String alcanceDatos;
     private Integer idPlantaAsignada;
+    // null = no cambiar permisos; lista = reemplazar permisos del usuario
+    private List<String> modulos;
 
     // getters/setters
     public String getNombre() {
@@ -100,5 +103,13 @@ public class EditarUsuarioDto {
 
     public void setIdPlantaAsignada(Integer idPlantaAsignada) {
         this.idPlantaAsignada = idPlantaAsignada;
+    }
+
+    public List<String> getModulos() {
+        return modulos;
+    }
+
+    public void setModulos(List<String> modulos) {
+        this.modulos = modulos;
     }
 }

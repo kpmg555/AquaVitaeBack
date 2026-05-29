@@ -2,6 +2,7 @@ package com.aquavitae.domain.repository;
 
 import com.aquavitae.domain.models.Usuario;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UsuarioRepository {
@@ -20,4 +21,6 @@ public interface UsuarioRepository {
     Usuario save(Usuario usuario);
 
     void desactivar(Integer id);
+
+    Map<Integer, List<String>> findModulosPersonalizadosByIds(List<Integer> ids);
 }

@@ -12,7 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import org.mockito.ArgumentCaptor;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -114,5 +117,33 @@ class EditarUsuarioUseCaseTest {
 
         verify(usuarioRepository, never()).existsByCorreo(anyString());
         verify(firebaseAuthPort).actualizarUsuario(any(), any(), any(), any());
+    }
+
+    @Test
+    void execute_withModulos_passesModulosToSavedUser() {
+        List<String> modulos = Arrays.asList("Inventario", "Reportes");
+        dto.setModulos(modulos);
+
+        when(usuarioRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(usuarioRepository.existsByCorreo(dto.getCorreo())).thenReturn(false);
+
+        Usuario savedUser = new Usuario();
+        savedUser.setId(userId);
+        savedUser.setUuid("firebase-uuid-1");
+        savedUser.setNombre(dto.getNombre());
+        savedUser.setApellido(dto.getApellido());
+        savedUser.setCorreo(dto.getCorreo());
+        savedUser.setIdRol(dto.getIdRol());
+        savedUser.setActivo(true);
+        savedUser.setModulosPersonalizados(modulos);
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(savedUser);
+
+        UsuarioDto result = useCase.execute(userId, dto);
+
+        ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
+        verify(usuarioRepository).save(captor.capture());
+        assertEquals(modulos, captor.getValue().getModulosPersonalizados());
+
+        assertEquals(modulos, result.getModulosEfectivos());
     }
 }

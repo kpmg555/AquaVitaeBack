@@ -2,6 +2,7 @@ package com.aquavitae.domain.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public class Usuario {
@@ -20,6 +21,8 @@ public class Usuario {
     private String alcanceDatos;
     private Integer idPlantaAsignada;
     private LocalDateTime ultimoAcceso;
+    // null = hereda permisos del rol; non-null = permisos personalizados del usuario
+    private List<String> modulosPersonalizados;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy, h:mm a",
             new Locale("es", "MX"));
@@ -147,6 +150,14 @@ public class Usuario {
 
     public void setUltimoAcceso(LocalDateTime ultimoAcceso) {
         this.ultimoAcceso = ultimoAcceso;
+    }
+
+    public List<String> getModulosPersonalizados() {
+        return modulosPersonalizados;
+    }
+
+    public void setModulosPersonalizados(List<String> modulosPersonalizados) {
+        this.modulosPersonalizados = modulosPersonalizados;
     }
 
     // Método para obtener nombre completo

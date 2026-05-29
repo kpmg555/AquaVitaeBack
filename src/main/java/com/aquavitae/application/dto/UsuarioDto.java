@@ -1,5 +1,7 @@
 package com.aquavitae.application.dto;
 
+import java.util.List;
+
 public class UsuarioDto {
     private Integer id;
     private String nombreCompleto;
@@ -9,6 +11,8 @@ public class UsuarioDto {
     private boolean activo;
     private String ultimoAcceso;
     private String nombreEmpresa;
+    // null = hereda del rol; lista = permisos personalizados activos
+    private List<String> modulosEfectivos;
 
     // getters/setters
     public Integer getId() {
@@ -73,5 +77,13 @@ public class UsuarioDto {
 
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public List<String> getModulosEfectivos() {
+        return modulosEfectivos;
+    }
+
+    public void setModulosEfectivos(List<String> modulosEfectivos) {
+        this.modulosEfectivos = modulosEfectivos;
     }
 }

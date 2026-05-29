@@ -1,7 +1,12 @@
 package com.aquavitae.infrastructure.mapper;
 
 import com.aquavitae.domain.models.Usuario;
+import com.aquavitae.infrastructure.entities.PermisoEntity;
 import com.aquavitae.infrastructure.entities.UsuarioEntity;
+import org.hibernate.Hibernate;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UsuarioMapper {
 
@@ -26,6 +31,17 @@ public class UsuarioMapper {
             u.setIdRol(e.getRol().getId());
             u.setNombreRol(e.getRol().getNombre());
         }
+        // Incluir módulos personalizados solo cuando la colección está cargada
+        if (e.getPermisosPersonalizados() != null
+                && Hibernate.isInitialized(e.getPermisosPersonalizados())
+                && !e.getPermisosPersonalizados().isEmpty()) {
+            List<String> modulos = e.getPermisosPersonalizados().stream()
+                    .map(PermisoEntity::getModulo)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
+            u.setModulosPersonalizados(modulos);
+        }
         return u;
     }
 
@@ -46,7 +62,7 @@ public class UsuarioMapper {
         e.setAlcanceDatos(u.getAlcanceDatos() != null ? u.getAlcanceDatos() : "TODAS");
         e.setIdPlantaAsignada(u.getIdPlantaAsignada());
         e.setUltimoAcceso(u.getUltimoAcceso());
-        // El rol se asigna por separado en el repositorio
+        // El rol y los permisos se asignan por separado en el repositorio
         return e;
     }
 }

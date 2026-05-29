@@ -54,14 +54,19 @@ public class ListarUsuariosUseCase {
 
         Map<String, String> accesosFirebase = firebaseAuthPort.getUltimoAccesoBatch(uuids);
 
+        // Carga en batch los permisos personalizados de los usuarios de esta página
+        List<Integer> ids = usuarios.stream().map(Usuario::getId).collect(Collectors.toList());
+        Map<Integer, List<String>> modulosPorUsuario = usuarioRepository.findModulosPersonalizadosByIds(ids);
+
         List<UsuarioDto> dtos = usuarios.stream()
-                .map(u -> toDto(u, accesosFirebase))
+                .map(u -> toDto(u, accesosFirebase, modulosPorUsuario))
                 .collect(Collectors.toList());
 
         return new PagedResponse<>(dtos, total, page, size);
     }
 
-    private UsuarioDto toDto(Usuario u, Map<String, String> accesosFirebase) {
+    private UsuarioDto toDto(Usuario u, Map<String, String> accesosFirebase,
+                              Map<Integer, List<String>> modulosPorUsuario) {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(u.getId());
         dto.setNombreCompleto(u.getNombreCompleto());
@@ -72,19 +77,22 @@ public class ListarUsuariosUseCase {
         dto.setNombreEmpresa(u.getNombreEmpresa());
 
         String firebaseFecha = accesosFirebase.getOrDefault(u.getUuid(), null);
-        String fechaFinal = null;
+        String fechaFinal;
 
         if (firebaseFecha != null && !firebaseFecha.equals("—") && !firebaseFecha.equals("Nunca")) {
             fechaFinal = firebaseFecha;
+        } else if (u.getUltimoAcceso() != null) {
+            fechaFinal = u.getUltimoAccesoFormateado();
         } else {
-            if (u.getUltimoAcceso() != null) {
-                fechaFinal = u.getUltimoAccesoFormateado();
-            } else {
-                fechaFinal = "—";
-            }
+            fechaFinal = "—";
+        }
+        dto.setUltimoAcceso(fechaFinal);
+
+        List<String> modulos = modulosPorUsuario.get(u.getId());
+        if (modulos != null && !modulos.isEmpty()) {
+            dto.setModulosEfectivos(modulos);
         }
 
-        dto.setUltimoAcceso(fechaFinal);
         return dto;
     }
 }
