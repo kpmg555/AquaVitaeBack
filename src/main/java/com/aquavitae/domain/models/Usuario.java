@@ -24,10 +24,11 @@ public class Usuario {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy, h:mm a",
             new Locale("es", "MX"));
 
+    // Constructor vacío
     public Usuario() {
     }
 
-    // Getters y Setters
+    // Getters y Setters (todos)
     public Integer getId() {
         return id;
     }
@@ -148,13 +149,15 @@ public class Usuario {
         this.ultimoAcceso = ultimoAcceso;
     }
 
+    // Método para obtener nombre completo
     public String getNombreCompleto() {
         return nombre + " " + apellido;
     }
 
+    // Método para formatear último acceso (para enviar al frontend)
     public String getUltimoAccesoFormateado() {
         if (ultimoAcceso == null)
-            return "—";
+            return null;
         return ultimoAcceso.format(FORMATTER)
                 .replace("a. m.", "a.m.")
                 .replace("p. m.", "p.m.");
