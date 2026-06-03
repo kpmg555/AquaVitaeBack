@@ -18,6 +18,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AlternativasResource {
 
+    private static final String MSG_PLANTA_ID_REQUERIDO = "plantaId requerido";
+
     @Inject ObtenerAlertaOperativaUseCase alertaUseCase;
     @Inject ObtenerAlternativasUseCase alternativasUseCase;
     @Inject ObtenerFactoresUseCase factoresUseCase;
@@ -25,7 +27,7 @@ public class AlternativasResource {
     @GET
     @Path("/alerta")
     public Response obtenerAlerta(@QueryParam("plantaId") Integer plantaId) {
-        if (plantaId == null) return Response.status(400).entity("plantaId requerido").build();
+        if (plantaId == null) return Response.status(400).entity(MSG_PLANTA_ID_REQUERIDO).build();
         AlertaOperativaDto dto = alertaUseCase.execute(plantaId);
         return Response.ok(dto).build();
     }
@@ -33,7 +35,7 @@ public class AlternativasResource {
     @GET
     @Path("/ubicaciones")
     public Response obtenerAlternativas(@QueryParam("plantaId") Integer plantaId) {
-        if (plantaId == null) return Response.status(400).entity("plantaId requerido").build();
+        if (plantaId == null) return Response.status(400).entity(MSG_PLANTA_ID_REQUERIDO).build();
         List<AlternativaUbicacionDto> lista = alternativasUseCase.execute(plantaId);
         return Response.ok(lista).build();
     }
@@ -41,7 +43,7 @@ public class AlternativasResource {
     @GET
     @Path("/factores")
     public Response obtenerFactores(@QueryParam("plantaId") Integer plantaId) {
-        if (plantaId == null) return Response.status(400).entity("plantaId requerido").build();
+        if (plantaId == null) return Response.status(400).entity(MSG_PLANTA_ID_REQUERIDO).build();
         List<FactorEvaluacionDto> lista = factoresUseCase.execute(plantaId);
         return Response.ok(lista).build();
     }

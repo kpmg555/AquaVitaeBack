@@ -33,7 +33,10 @@ public class UbicacionEntity {
     @Column(name = "id_municipio_smn")
     private Integer idMunicipioSmn;
 
-    public UbicacionEntity() {}
+    public UbicacionEntity() {
+        // JPA exige el constructor por default para que Hibernate pueda instanciar la entidad mediante reflexión.
+        //  No se debe usar este constructor directamente; se llena mediante setters o un mapper.
+    }
 
     public Integer getId() {return id;}
     public void setId(Integer id) {this.id = id;}
