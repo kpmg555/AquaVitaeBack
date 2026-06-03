@@ -29,6 +29,9 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
     private static final String PARAMETERS = "T2M,PRECTOTCORR,RH2M";
     private static final String COMMUNITY = "AG";
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private static final String API_NAME = "NASA POWER";
+    private static final String API_BASE_URL = "https://power.larc.nasa.gov";
+    private static final String API_ENDPOINT = "/api/temporal/daily/point";
 
     @Override
     public String getNombre() {
@@ -58,10 +61,10 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
                 );
 
                 apiMonitorRepository.registerSuccess(
-                        "NASA POWER",
-                        "https://power.larc.nasa.gov",
+                        API_NAME,
+                        API_BASE_URL,
                         "GET",
-                        "/api/temporal/daily/point"
+                        API_ENDPOINT
                 );
 
                 Double temperatura = response.getParameterValue("T2M") != null
@@ -96,10 +99,10 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
                         : 500;
 
                 apiMonitorRepository.registerError(
-                        "NASA POWER",
-                        "https://power.larc.nasa.gov",
+                        API_NAME,
+                        API_BASE_URL,
                         "GET",
-                        "/api/temporal/daily/point",
+                        API_ENDPOINT,
                         statusCode,
                         e.getMessage()
                 );
@@ -108,10 +111,10 @@ public class NasaPowerClimaAdapter implements FuenteClimaPort {
 
             } catch (Exception e) {
                 apiMonitorRepository.registerError(
-                        "NASA POWER",
-                        "https://power.larc.nasa.gov",
+                        API_NAME,
+                        API_BASE_URL,
                         "GET",
-                        "/api/temporal/daily/point",
+                        API_ENDPOINT,
                         500,
                         e.getMessage()
                 );

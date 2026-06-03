@@ -19,6 +19,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class AlternativasRepositoryImpl implements AlternativasRepository {
 
+    private static final String PARAM_PLANTA_ID = "plantaId";
+
     @Inject
     EntityManager em;
 
@@ -35,7 +37,7 @@ public class AlternativasRepositoryImpl implements AlternativasRepository {
                 SELECT p FROM PlantaEntity p
                 WHERE p.id <> :plantaId AND p.activa = true
                 """, PlantaEntity.class)
-                .setParameter("plantaId", plantaId)
+                .setParameter(PARAM_PLANTA_ID, plantaId)
                 .getResultList();
 
         List<AlternativaUbicacion> alternativas = otras.stream()
@@ -71,7 +73,7 @@ public class AlternativasRepositoryImpl implements AlternativasRepository {
                     WHERE e2.planta.id = :plantaId
                 )
                 """, EstadoPlantaEntity.class)
-                .setParameter("plantaId", plantaId)
+                .setParameter(PARAM_PLANTA_ID, plantaId)
                 .setMaxResults(1)
                 .getSingleResult();
     }
@@ -86,7 +88,7 @@ public class AlternativasRepositoryImpl implements AlternativasRepository {
                     WHERE e2.planta.id = :plantaId
                 )
                 """, EstadoPlantaEntity.class)
-                .setParameter("plantaId", plantaId)
+                .setParameter(PARAM_PLANTA_ID, plantaId)
                 .setMaxResults(1)
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));

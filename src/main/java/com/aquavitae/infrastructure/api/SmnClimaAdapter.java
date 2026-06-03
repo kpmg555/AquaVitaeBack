@@ -27,6 +27,10 @@ public class SmnClimaAdapter implements FuenteClimaPort {
     @Inject
     ApiMonitorRepositoryPort apiMonitorRepository;
 
+    private static final String API_NAME = "SMN";
+    private static final String API_BASE_URL = "https://smn.conagua.gob.mx";
+    private static final String API_ENDPOINT = "/webservices/?method=1";
+
     private List<Municipio> cacheMunicipios;
     private LocalDateTime lastFetch;
     private static final int CACHE_MINUTES = 15;
@@ -95,10 +99,10 @@ public class SmnClimaAdapter implements FuenteClimaPort {
             lastFetch = LocalDateTime.now();
 
             apiMonitorRepository.registerSuccess(
-                    "SMN",
-                    "https://smn.conagua.gob.mx",
+                    API_NAME,
+                    API_BASE_URL,
                     "GET",
-                    "/webservices/?method=1"
+                    API_ENDPOINT
             );
 
         } catch (WebApplicationException e) {
@@ -107,10 +111,10 @@ public class SmnClimaAdapter implements FuenteClimaPort {
                     : 500;
 
             apiMonitorRepository.registerError(
-                    "SMN",
-                    "https://smn.conagua.gob.mx",
+                    API_NAME,
+                    API_BASE_URL,
                     "GET",
-                    "/webservices/?method=1",
+                    API_ENDPOINT,
                     statusCode,
                     e.getMessage()
             );
@@ -119,10 +123,10 @@ public class SmnClimaAdapter implements FuenteClimaPort {
 
         } catch (Exception e) {
             apiMonitorRepository.registerError(
-                    "SMN",
-                    "https://smn.conagua.gob.mx",
+                    API_NAME,
+                    API_BASE_URL,
                     "GET",
-                    "/webservices/?method=1",
+                    API_ENDPOINT,
                     500,
                     e.getMessage()
             );

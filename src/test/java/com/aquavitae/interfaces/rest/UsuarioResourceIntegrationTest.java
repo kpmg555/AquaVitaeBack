@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 /**
@@ -74,6 +76,7 @@ class UsuarioResourceIntegrationTest {
     @Transactional
     void setUp() {
         em.createNativeQuery("DELETE FROM Rol_Permiso").executeUpdate();
+        em.createNativeQuery("DELETE FROM Usuario_Permiso").executeUpdate();
         em.createNativeQuery("DELETE FROM Usuario").executeUpdate();
         em.createNativeQuery("DELETE FROM Rol").executeUpdate();
         em.createNativeQuery("DELETE FROM Empresa").executeUpdate();
@@ -249,8 +252,11 @@ class UsuarioResourceIntegrationTest {
      * Verifica que eliminar un usuario realice una baja logica (activo = false).
      * El usuario se inserta con ID conocido en una transaccion separada
      * para que el endpoint HTTP lo encuentre al procesar el DELETE.
+     * Tras la llamada se consulta directamente la BD para confirmar que el
+     * registro sigue existiendo y que activo fue puesto en false.
      */
     @Test
+    @Transactional
     void testEliminarUsuario() {
         insertarUsuarioConId(200, "del-uuid", "Eliminar", "Me",
                 "eliminar@test.com", 1, 1, 1);
@@ -259,6 +265,20 @@ class UsuarioResourceIntegrationTest {
                 .when().delete("/api/usuarios/200")
                 .then()
                 .statusCode(204);
+
+        // Verifica baja lógica: el registro debe seguir en BD con activo = false
+        Object activoRaw = em.createNativeQuery(
+                "SELECT activo FROM Usuario WHERE id = 200")
+                .getSingleResult();
+        boolean activo = activoRaw instanceof Boolean
+                ? (Boolean) activoRaw
+                : ((Number) activoRaw).intValue() == 1;
+        assertFalse(activo, "El usuario debe estar desactivado (activo = false)");
+
+        Long count = (Long) em.createNativeQuery(
+                "SELECT COUNT(*) FROM Usuario WHERE id = 200")
+                .getSingleResult();
+        assertEquals(1L, count, "El usuario no debe eliminarse fisicamente de la BD");
     }
 
     /**

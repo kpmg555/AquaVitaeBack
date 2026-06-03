@@ -25,6 +25,12 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
     @Inject
     ApiMonitorRepositoryPort apiMonitorRepository;
 
+    private static final String API_NAME = "Open-Meteo";
+    private static final String API_BASE_URL = "https://api.open-meteo.com";
+    private static final String API_ENDPOINT = "/v1/forecast";
+    private static final String CURRENT_PARAMS = "temperature_2m,rain,evapotranspiration";
+    private static final String HOURLY_PARAMS = "soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm";
+
     @Override
     public String getNombre() {
         return "openMeteo";
@@ -42,115 +48,59 @@ public class OpenMeteoClimaAdapter implements FuenteClimaPort {
                 .map(u -> String.valueOf(u.getLongitud()))
                 .collect(Collectors.joining(","));
 
-        String current = "temperature_2m,rain,evapotranspiration";
-        String hourly = "soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm";
-
-        List<ClimaticResponse> responses;
-
-        try {
-            responses = climaRestClient.getForecast(
-                    latStr,
-                    lonStr,
-                    current,
-                    hourly,
-                    "auto"
-            );
-
-            apiMonitorRepository.registerSuccess(
-                    "Open-Meteo",
-                    "https://api.open-meteo.com",
-                    "GET",
-                    "/v1/forecast"
-            );
-
-        } catch (WebApplicationException e) {
-            int statusCode = e.getResponse() != null
-                    ? e.getResponse().getStatus()
-                    : 500;
-
-            apiMonitorRepository.registerError(
-                    "Open-Meteo",
-                    "https://api.open-meteo.com",
-                    "GET",
-                    "/v1/forecast",
-                    statusCode,
-                    e.getMessage()
-            );
-
-            throw e;
-
-        } catch (Exception e) {
-            apiMonitorRepository.registerError(
-                    "Open-Meteo",
-                    "https://api.open-meteo.com",
-                    "GET",
-                    "/v1/forecast",
-                    500,
-                    e.getMessage()
-            );
-
-            throw e;
-        }
+        List<ClimaticResponse> responses = callApi(latStr, lonStr);
 
         List<DatosClimaticos> resultado = new ArrayList<>();
-
         for (int i = 0; i < ubicaciones.size(); i++) {
-            UbicacionClima ub = ubicaciones.get(i);
-
             if (i >= responses.size()) break;
-
-            ClimaticResponse response = responses.get(i);
-
-            double rain = 0.0;
-            double temp = 0.0;
-            double evap = 0.0;
-            double ultH0_1 = 0.0;
-            double ultH1_3 = 0.0;
-            double ultH3_9 = 0.0;
-
-            if (response.getCurrent() != null) {
-                rain = response.getCurrent().getRain() != null
-                        ? response.getCurrent().getRain()
-                        : 0.0;
-
-                temp = response.getCurrent().getTemperature2m() != null
-                        ? response.getCurrent().getTemperature2m()
-                        : 0.0;
-
-                evap = response.getCurrent().getEvapotranspiration() != null
-                        ? response.getCurrent().getEvapotranspiration()
-                        : 0.0;
-            }
-
-            if (response.getHourly() != null) {
-                Double[] hum0_1 = response.getHourly().getSoilMoisture0To1cm();
-                Double[] hum1_3 = response.getHourly().getSoilMoisture1To3cm();
-                Double[] hum3_9 = response.getHourly().getSoilMoisture3To9cm();
-
-                ultH0_1 = (hum0_1 != null && hum0_1.length > 0 && hum0_1[hum0_1.length - 1] != null)
-                        ? hum0_1[hum0_1.length - 1]
-                        : 0.0;
-
-                ultH1_3 = (hum1_3 != null && hum1_3.length > 0 && hum1_3[hum1_3.length - 1] != null)
-                        ? hum1_3[hum1_3.length - 1]
-                        : 0.0;
-
-                ultH3_9 = (hum3_9 != null && hum3_9.length > 0 && hum3_9[hum3_9.length - 1] != null)
-                        ? hum3_9[hum3_9.length - 1]
-                        : 0.0;
-            }
-
-            resultado.add(new DatosClimaticos(
-                    ub.getId(),
-                    rain,
-                    ultH0_1,
-                    ultH1_3,
-                    ultH3_9,
-                    evap,
-                    temp
-            ));
+            resultado.add(buildDatosClimaticos(ubicaciones.get(i), responses.get(i)));
         }
 
         return resultado;
+    }
+
+    private List<ClimaticResponse> callApi(String latStr, String lonStr) {
+        try {
+            List<ClimaticResponse> responses = climaRestClient.getForecast(
+                    latStr, lonStr, CURRENT_PARAMS, HOURLY_PARAMS, "auto");
+            apiMonitorRepository.registerSuccess(API_NAME, API_BASE_URL, "GET", API_ENDPOINT);
+            return responses;
+        } catch (WebApplicationException e) {
+            int statusCode = e.getResponse() != null ? e.getResponse().getStatus() : 500;
+            apiMonitorRepository.registerError(API_NAME, API_BASE_URL, "GET", API_ENDPOINT, statusCode, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            apiMonitorRepository.registerError(API_NAME, API_BASE_URL, "GET", API_ENDPOINT, 500, e.getMessage());
+            throw e;
+        }
+    }
+
+    private DatosClimaticos buildDatosClimaticos(UbicacionClima ub, ClimaticResponse response) {
+        double rain = 0.0, temp = 0.0, evap = 0.0;
+        double ultH0_1 = 0.0, ultH1_3 = 0.0, ultH3_9 = 0.0;
+
+        if (response.getCurrent() != null) {
+            rain = doubleOrZero(response.getCurrent().getRain());
+            temp = doubleOrZero(response.getCurrent().getTemperature2m());
+            evap = doubleOrZero(response.getCurrent().getEvapotranspiration());
+        }
+
+        if (response.getHourly() != null) {
+            ultH0_1 = getLastValue(response.getHourly().getSoilMoisture0To1cm());
+            ultH1_3 = getLastValue(response.getHourly().getSoilMoisture1To3cm());
+            ultH3_9 = getLastValue(response.getHourly().getSoilMoisture3To9cm());
+        }
+
+        return new DatosClimaticos(ub.getId(), rain, ultH0_1, ultH1_3, ultH3_9, evap, temp);
+    }
+
+    private double getLastValue(Double[] arr) {
+        return (arr != null && arr.length > 0 && arr[arr.length - 1] != null)
+                ? arr[arr.length - 1]
+                : 0.0;
+    }
+
+    private double doubleOrZero(Double value) {
+        return value != null ? value : 0.0;
     }
 }
