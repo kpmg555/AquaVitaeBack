@@ -74,16 +74,15 @@ class ListarUsuariosUseCaseTest {
         when(usuarioRepository.findActivosConDetalle(idEmpresa, 0, 10)).thenReturn(List.of(u));
         when(usuarioRepository.countActivos(idEmpresa)).thenReturn(1L);
 
-        Map<String, String> accesos = Map.of("u1", "15 may 2025, 2:30 p.m.");
-        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("u1"))).thenReturn(accesos);
+        Map<String, String> accesos = Map.of("juan@test.com", "15 may 2025, 2:30 p.m.");
+        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("juan@test.com"))).thenReturn(accesos);
 
         PagedResponse<UsuarioDto> response = useCase.listar(0, 10);
 
         assertEquals(1, response.getItems().size());
         UsuarioDto dto = response.getItems().get(0);
         assertEquals("15 may 2025, 2:30 p.m.", dto.getUltimoAcceso());
-        // Verificar que NO se usó la fecha local
-        verify(firebaseAuthPort).getUltimoAccesoBatch(List.of("u1"));
+        verify(firebaseAuthPort).getUltimoAccesoBatch(List.of("juan@test.com"));
     }
 
     @Test
@@ -95,8 +94,8 @@ class ListarUsuariosUseCaseTest {
         when(usuarioRepository.findActivosConDetalle(idEmpresa, 0, 10)).thenReturn(List.of(u));
         when(usuarioRepository.countActivos(idEmpresa)).thenReturn(1L);
 
-        Map<String, String> accesos = Map.of("u2", "Nunca");
-        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("u2"))).thenReturn(accesos);
+        Map<String, String> accesos = Map.of("ana@test.com", "Nunca");
+        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("ana@test.com"))).thenReturn(accesos);
 
         PagedResponse<UsuarioDto> response = useCase.listar(0, 10);
 
@@ -114,8 +113,8 @@ class ListarUsuariosUseCaseTest {
         when(usuarioRepository.findActivosConDetalle(idEmpresa, 0, 10)).thenReturn(List.of(u));
         when(usuarioRepository.countActivos(idEmpresa)).thenReturn(1L);
 
-        Map<String, String> accesos = Map.of("u3", "—");
-        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("u3"))).thenReturn(accesos);
+        Map<String, String> accesos = Map.of("carlos@test.com", "—");
+        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("carlos@test.com"))).thenReturn(accesos);
 
         PagedResponse<UsuarioDto> response = useCase.listar(0, 10);
 
@@ -130,8 +129,8 @@ class ListarUsuariosUseCaseTest {
         when(usuarioRepository.findActivosConDetalle(idEmpresa, 0, 10)).thenReturn(List.of(u));
         when(usuarioRepository.countActivos(idEmpresa)).thenReturn(1L);
 
-        Map<String, String> accesos = Map.of(); // sin entrada para este uid
-        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("u4"))).thenReturn(accesos);
+        Map<String, String> accesos = Map.of();
+        when(firebaseAuthPort.getUltimoAccesoBatch(List.of("luis@test.com"))).thenReturn(accesos);
 
         PagedResponse<UsuarioDto> response = useCase.listar(0, 10);
 
