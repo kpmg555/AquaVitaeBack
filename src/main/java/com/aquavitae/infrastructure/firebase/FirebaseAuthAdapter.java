@@ -1,8 +1,8 @@
 package com.aquavitae.infrastructure.firebase;
 
+import com.google.firebase.auth.EmailIdentifier;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetUsersResult;
-import com.google.firebase.auth.UidIdentifier;
 import com.google.firebase.auth.UserIdentifier;
 import com.google.firebase.auth.UserRecord;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -79,18 +79,20 @@ public class FirebaseAuthAdapter implements FirebaseAuthPort {
     }
 
     @Override
-    public Map<String, String> getUltimoAccesoBatch(List<String> uuids) {
+    public Map<String, String> getUltimoAccesoBatch(List<String> correos) {
         Map<String, String> resultado = new HashMap<>();
-        if (uuids == null || uuids.isEmpty())
+        if (correos == null || correos.isEmpty())
             return resultado;
 
         try {
-            // CORRECCIÓN: usar List<UserIdentifier> en lugar de List<UidIdentifier>
-            List<UserIdentifier> identifiers = uuids.stream()
-                    .map(UidIdentifier::new)
+            List<UserIdentifier> identifiers = correos.stream()
+                    .map(EmailIdentifier::new)
                     .collect(Collectors.toList());
 
             GetUsersResult result = FirebaseAuth.getInstance().getUsers(identifiers);
+
+            LOG.infof("[UltimoAcceso] Buscando %d correos en Firebase. Encontrados: %d. No encontrados: %d",
+                    correos.size(), result.getUsers().size(), result.getNotFound().size());
 
             for (UserRecord record : result.getUsers()) {
                 long lastSignIn = record.getUserMetadata().getLastSignInTimestamp();
@@ -102,16 +104,17 @@ public class FirebaseAuthAdapter implements FirebaseAuthPort {
                             .replace("a. m.", "a.m.")
                             .replace("p. m.", "p.m.");
                 }
-                resultado.put(record.getUid(), formateado);
+                LOG.infof("[UltimoAcceso] %s -> lastSignIn=%d -> %s", record.getEmail(), lastSignIn, formateado);
+                resultado.put(record.getEmail(), formateado);
             }
 
-            for (String uid : uuids) {
-                resultado.putIfAbsent(uid, "—");
+            for (String correo : correos) {
+                resultado.putIfAbsent(correo, "—");
             }
 
         } catch (Exception e) {
             LOG.errorf("Error al obtener último acceso de Firebase: %s", e.getMessage());
-            uuids.forEach(uid -> resultado.put(uid, "—"));
+            correos.forEach(correo -> resultado.put(correo, "—"));
         }
 
         return resultado;
