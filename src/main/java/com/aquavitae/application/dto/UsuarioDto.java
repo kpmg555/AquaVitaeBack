@@ -5,6 +5,10 @@ import java.util.List;
 public class UsuarioDto {
     private Integer id;
     private String nombreCompleto;
+    private String nombre;
+    private String apellido;
+    private String nombreUsuario;
+    private String telefono;
     private String correo;
     private String nombreRol;
     private Integer idRol;
@@ -29,6 +33,38 @@ public class UsuarioDto {
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getCorreo() {

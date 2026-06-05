@@ -161,7 +161,10 @@ class UsuarioResourceIntegrationTest {
                 .body("total", is(3))
                 .body("page", is(0))
                 .body("size", is(2))
-                .body("totalPages", is(2));
+                .body("totalPages", is(2))
+                .body("items[0].nombre", notNullValue())
+                .body("items[0].apellido", notNullValue())
+                .body("items[0].correo", notNullValue());
     }
 
     /**
@@ -190,6 +193,8 @@ class UsuarioResourceIntegrationTest {
                 .then()
                 .statusCode(201)
                 .body("nombreCompleto", is("Maria Gomez"))
+                .body("nombre", is("Maria"))
+                .body("apellido", is("Gomez"))
                 .body("correo", is("nuevo@test.com"))
                 .body("activo", is(true));
     }
@@ -245,6 +250,8 @@ class UsuarioResourceIntegrationTest {
                 .then()
                 .statusCode(200)
                 .body("nombreCompleto", is("Antonio Nuevo"))
+                .body("nombre", is("Antonio"))
+                .body("apellido", is("Nuevo"))
                 .body("correo", is("antonio.nuevo@test.com"));
     }
 
