@@ -57,6 +57,10 @@ public class EditarUsuarioUseCase {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(u.getId());
         dto.setNombreCompleto(u.getNombreCompleto());
+        dto.setNombre(u.getNombre());
+        dto.setApellido(u.getApellido());
+        dto.setNombreUsuario(u.getNombreUsuario());
+        dto.setTelefono(u.getTelefono());
         dto.setCorreo(u.getCorreo());
         dto.setIdRol(u.getIdRol());
         dto.setActivo(u.isActivo());
