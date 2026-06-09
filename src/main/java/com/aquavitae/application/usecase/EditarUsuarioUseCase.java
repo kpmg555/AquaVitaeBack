@@ -7,11 +7,14 @@ import com.aquavitae.application.dto.UsuarioDto;
 import com.aquavitae.domain.models.Usuario;
 import com.aquavitae.domain.ports.FirebaseAuthPort;
 import com.aquavitae.domain.repository.UsuarioRepository;
+import org.jboss.logging.Logger;
 
 import java.util.NoSuchElementException;
 
 @ApplicationScoped
 public class EditarUsuarioUseCase {
+
+    private static final Logger LOG = Logger.getLogger(EditarUsuarioUseCase.class);
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -44,11 +47,17 @@ public class EditarUsuarioUseCase {
 
         usuario = usuarioRepository.save(usuario);
 
-        firebaseAuthPort.actualizarUsuario(
-                usuario.getUuid(),
-                dto.getCorreo(),
-                dto.getNombre() + " " + dto.getApellido(),
-                dto.getNuevaContrasena());
+        if (usuario.getUuid() != null && !usuario.getUuid().isBlank()) {
+            try {
+                firebaseAuthPort.actualizarUsuario(
+                        usuario.getUuid(),
+                        dto.getCorreo(),
+                        dto.getNombre() + " " + dto.getApellido(),
+                        dto.getNuevaContrasena());
+            } catch (Exception e) {
+                LOG.warnf("Firebase sync failed for user %d: %s", id, e.getMessage());
+            }
+        }
 
         return toDto(usuario);
     }
