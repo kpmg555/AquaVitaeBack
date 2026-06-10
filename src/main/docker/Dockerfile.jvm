@@ -90,7 +90,9 @@ COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
 COPY --chown=185 target/quarkus-app/*.jar /deployments/
 COPY --chown=185 target/quarkus-app/app/ /deployments/app/
 COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
-COPY --chown=185 src/main/resources/*.json /deployments/src/main/resources/
+# La credencial de Firebase NO se copia a la imagen: se inyecta en runtime
+# vía Secret Manager (--update-secrets en cloudbuild.yaml). En un clone limpio
+# (CI) no existe ningún *.json y este COPY rompía el build.
 
 EXPOSE 8080
 USER 185
