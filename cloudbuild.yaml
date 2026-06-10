@@ -18,3 +18,5 @@ steps:
 images:
 - 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest'
 timeout: 1200s
+options:
+  logging: CLOUD_LOGGING_ONLY
