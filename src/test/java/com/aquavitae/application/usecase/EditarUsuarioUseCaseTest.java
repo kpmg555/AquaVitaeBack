@@ -124,6 +124,29 @@ class EditarUsuarioUseCaseTest {
     }
 
     @Test
+    void execute_firebaseThrows_doesNotPropagateException() {
+        when(usuarioRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(usuarioRepository.existsByCorreo(dto.getCorreo())).thenReturn(false);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+        doThrow(new RuntimeException("Firebase unavailable"))
+                .when(firebaseAuthPort).actualizarUsuario(any(), any(), any(), any());
+
+        assertDoesNotThrow(() -> useCase.execute(userId, dto));
+        verify(usuarioRepository).save(existingUser);
+    }
+
+    @Test
+    void execute_nullUuid_skipsFirebaseCall() {
+        existingUser.setUuid(null);
+        when(usuarioRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(usuarioRepository.existsByCorreo(dto.getCorreo())).thenReturn(false);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+
+        assertDoesNotThrow(() -> useCase.execute(userId, dto));
+        verify(firebaseAuthPort, never()).actualizarUsuario(any(), any(), any(), any());
+    }
+
+    @Test
     void execute_withModulos_passesModulosToSavedUser() {
         List<String> modulos = Arrays.asList("Inventario", "Reportes");
         dto.setModulos(modulos);
