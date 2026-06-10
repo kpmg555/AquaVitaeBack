@@ -10,6 +10,9 @@ import com.aquavitae.application.dto.*;
 import com.aquavitae.application.usecase.*;
 import com.aquavitae.domain.repository.EmpresaRepository;
 import com.aquavitae.domain.ports.AuditoriaWriterPort;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.lang.reflect.Field;
 import java.util.NoSuchElementException;
@@ -17,6 +20,7 @@ import java.util.NoSuchElementException;
 @Path("/api/usuarios")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Usuarios", description = "Gestión de usuarios: listado, alta, edición, baja, roles, empresas y generación de contraseñas.")
 public class UsuarioResource {
 
     private static final String MODULO_GESTION_USUARIOS = "Gestión Usuarios";
@@ -47,19 +51,24 @@ public class UsuarioResource {
 
     @GET
     @Path("/resumen")
+    @Operation(summary = "Resumen de usuarios", description = "Devuelve un resumen agregado de los usuarios (totales, activos, por rol, etc.) para el panel de administración.")
     public Response getResumen() {
         return Response.ok(listarUsuariosUseCase.obtenerResumen()).build();
     }
 
     @GET
+    @Operation(summary = "Listar usuarios", description = "Devuelve la lista de usuarios de forma paginada.")
     public Response listar(
+            @Parameter(description = "Número de página (inicia en 0)")
             @QueryParam("page") @DefaultValue("0") int page,
+            @Parameter(description = "Cantidad de usuarios por página (por defecto 5)")
             @QueryParam("size") @DefaultValue("5") int size
     ) {
         return Response.ok(listarUsuariosUseCase.listar(page, size)).build();
     }
 
     @POST
+    @Operation(summary = "Crear usuario", description = "Da de alta un nuevo usuario. Responde 201 si se crea, 409 si ya existe un usuario en conflicto (ej. email duplicado).")
     public Response crear(@Valid CrearUsuarioDto dto) {
         try {
             Object resultado = crearUsuarioUseCase.execute(dto);
@@ -92,7 +101,10 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
-    public Response editar(@PathParam("id") Integer id, @Valid EditarUsuarioDto dto) {
+    @Operation(summary = "Editar usuario", description = "Actualiza los datos de un usuario existente. Responde 404 si no existe y 409 si hay conflicto de datos.")
+    public Response editar(
+            @Parameter(description = "ID del usuario a editar")
+            @PathParam("id") Integer id, @Valid EditarUsuarioDto dto) {
         try {
             Object resultado = editarUsuarioUseCase.execute(id, dto);
 
@@ -127,7 +139,10 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
-    public Response eliminar(@PathParam("id") Integer id) {
+    @Operation(summary = "Eliminar o desactivar usuario", description = "Elimina o desactiva un usuario. Responde 204 si se procesa, 404 si no existe y 409 si no se puede eliminar por su estado.")
+    public Response eliminar(
+            @Parameter(description = "ID del usuario a eliminar")
+            @PathParam("id") Integer id) {
         try {
             eliminarUsuarioUseCase.execute(id);
 
@@ -157,13 +172,17 @@ public class UsuarioResource {
 
     @GET
     @Path("/roles")
+    @Operation(summary = "Listar roles", description = "Devuelve todos los roles disponibles en el sistema.")
     public Response getRoles() {
         return Response.ok(obtenerRolesUseCase.listarTodos()).build();
     }
 
     @GET
     @Path("/roles/{id}")
-    public Response getRolConPermisos(@PathParam("id") Integer id) {
+    @Operation(summary = "Rol con permisos", description = "Devuelve un rol con la lista de permisos que tiene asociados. Responde 404 si el rol no existe.")
+    public Response getRolConPermisos(
+            @Parameter(description = "ID del rol")
+            @PathParam("id") Integer id) {
         try {
             return Response.ok(obtenerRolesUseCase.obtenerConPermisos(id)).build();
 
@@ -176,12 +195,14 @@ public class UsuarioResource {
 
     @GET
     @Path("/generar-contrasena")
+    @Operation(summary = "Generar contraseña", description = "Genera una contraseña segura aleatoria, útil al crear o resetear un usuario.")
     public Response generarContrasena() {
         return Response.ok(generarContrasenaUseCase.execute()).build();
     }
 
     @GET
     @Path("/empresas")
+    @Operation(summary = "Listar empresas", description = "Devuelve todas las empresas disponibles para asociar a un usuario.")
     public Response getEmpresas() {
         return Response.ok(empresaRepository.listarTodas()).build();
     }

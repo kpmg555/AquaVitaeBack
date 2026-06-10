@@ -9,6 +9,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
  */
 @Path("/api/predicciones")
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Predicciones (ARIMA)", description = "Predicciones hídricas calculadas por el modelo ARIMA, con la misma forma que la simulación para reutilizar las gráficas.")
 public class PrediccionResource {
 
     @Inject
@@ -27,7 +31,13 @@ public class PrediccionResource {
     @GET
     @Path("/proyeccion")
     @Transactional
-    public ProyeccionDto getProyeccion(@QueryParam("plantaId") Integer plantaId) {
+    @Operation(
+            summary = "Proyección ARIMA",
+            description = "Devuelve la última proyección ARIMA del índice hídrico para una planta, con bandas de confianza. Misma forma que /api/simulacion/proyeccion."
+    )
+    public ProyeccionDto getProyeccion(
+            @Parameter(description = "ID de la planta a consultar")
+            @QueryParam("plantaId") Integer plantaId) {
         List<PrediccionHidricaEntity> preds = em.createQuery(
                 "SELECT p FROM PrediccionHidricaEntity p " +
                 "WHERE p.idPlanta = :pid AND p.fechaCalculo = (" +
@@ -65,7 +75,13 @@ public class PrediccionResource {
     @GET
     @Path("/kpis")
     @Transactional
-    public KpiSimulacionDto getKpis(@QueryParam("plantaId") Integer plantaId) {
+    @Operation(
+            summary = "KPIs de la predicción ARIMA",
+            description = "Devuelve los KPIs más recientes calculados por el modelo ARIMA para una planta (índice actual, días hasta umbral, probabilidad de evento y pérdida estimada)."
+    )
+    public KpiSimulacionDto getKpis(
+            @Parameter(description = "ID de la planta a consultar")
+            @QueryParam("plantaId") Integer plantaId) {
         List<PrediccionKpiEntity> rows = em.createQuery(
                 "SELECT k FROM PrediccionKpiEntity k " +
                 "WHERE k.idPlanta = :pid ORDER BY k.fechaCalculo DESC", PrediccionKpiEntity.class)
