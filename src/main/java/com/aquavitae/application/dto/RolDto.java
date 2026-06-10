@@ -10,6 +10,16 @@ public class RolDto {
     private int totalPermisos;
 
     public RolDto() {
+        // Construsctor por defecto: Jackson lo necesita para deserializar JSON 
+        // Hibernate necesita crear instancias mediante Class.newInstance(), que exige un constructor sin argumentos
+    }
+
+    public RolDto(Integer id, String nombre, String descripcion, List<String> permisos, int totalPermisos) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.permisos = permisos;
+        this.totalPermisos = totalPermisos;
     }
 
     public Integer getId() {

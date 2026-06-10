@@ -27,8 +27,9 @@ public class Usuario {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy, h:mm a",
             new Locale("es", "MX"));
 
-    // Constructor vacío
     public Usuario() {
+        // Construsctor por defecto: Jackson lo necesita para deserializar JSON 
+        // Se llena mediante setters hechos por el mapper
     }
 
     // Getters y Setters (todos)

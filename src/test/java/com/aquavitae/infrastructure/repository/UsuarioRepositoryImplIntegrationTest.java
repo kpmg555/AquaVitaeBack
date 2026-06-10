@@ -48,6 +48,7 @@ class UsuarioRepositoryImplIntegrationTest {
     void setUp() {
         // Rol_Permiso debe borrarse antes que Rol por restriccion de clave foranea
         em.createNativeQuery("DELETE FROM Rol_Permiso").executeUpdate();
+        em.createNativeQuery("DELETE FROM Usuario_Permiso").executeUpdate();
         em.createNativeQuery("DELETE FROM Usuario").executeUpdate();
         em.createNativeQuery("DELETE FROM Rol").executeUpdate();
         em.createNativeQuery("DELETE FROM Empresa").executeUpdate();

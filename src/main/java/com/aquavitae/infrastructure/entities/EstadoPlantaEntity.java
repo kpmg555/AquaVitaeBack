@@ -41,7 +41,10 @@ public class EstadoPlantaEntity {
     @Column(length = 50)
     private String fuente = "OPEN_METEO";
 
-    public EstadoPlantaEntity() {}
+    public EstadoPlantaEntity() {
+        // JPA exige el constructor por default para que Hibernate pueda instanciar la entidad mediante reflexión.
+        //  No se debe usar este constructor directamente; se llena mediante setters o un mapper.
+    }
 
     public Integer getId() { return id; }
 

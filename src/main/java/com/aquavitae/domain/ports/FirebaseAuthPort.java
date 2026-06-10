@@ -10,7 +10,7 @@ public interface FirebaseAuthPort {
 
     String generarContrasenaAleatoria();
 
-    Map<String, String> getUltimoAccesoBatch(List<String> uuids);
+    Map<String, String> getUltimoAccesoBatch(List<String> correos);
 
     void actualizarUsuario(String uuid, String correo, String nombreCompleto, String nuevaContrasena);
 }

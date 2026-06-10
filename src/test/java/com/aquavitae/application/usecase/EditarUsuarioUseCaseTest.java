@@ -71,6 +71,10 @@ class EditarUsuarioUseCaseTest {
         assertNotNull(result);
         assertEquals(userId, result.getId());
         assertEquals("Ana Gómez", result.getNombreCompleto());
+        assertEquals("Ana", result.getNombre());
+        assertEquals("Gómez", result.getApellido());
+        assertEquals("anagomez", result.getNombreUsuario());
+        assertEquals("5556789", result.getTelefono());
         assertEquals("ana@example.com", result.getCorreo());
         assertEquals(3, result.getIdRol());
         assertTrue(result.isActivo());

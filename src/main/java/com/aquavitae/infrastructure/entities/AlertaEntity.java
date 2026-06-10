@@ -42,7 +42,22 @@ public class AlertaEntity {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
-    public AlertaEntity() {}
+    public AlertaEntity() {
+        // JPA exige el constructor por default para que Hibernate pueda instanciar la entidad mediante reflexión.
+        //  No se debe usar este constructor directamente; se llena mediante setters o un mapper.
+    }
+
+    public AlertaEntity(Integer idPlanta, String tipo, String titulo, String descripcion,
+                        Double nivelActual, Double umbral, String tendencia, LocalDateTime fecha) {
+        this.idPlanta = idPlanta;
+        this.tipo = tipo;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.nivelActual = nivelActual;
+        this.umbral = umbral;
+        this.tendencia = tendencia;
+        this.fecha = fecha;
+    }
 
     public Integer getId() {return id;}
     public void setId(Integer id) {this.id = id;}

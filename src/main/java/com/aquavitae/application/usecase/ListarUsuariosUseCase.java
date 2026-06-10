@@ -47,12 +47,12 @@ public class ListarUsuariosUseCase {
             return new PagedResponse<>(List.of(), total, page, size);
         }
 
-        List<String> uuids = usuarios.stream()
-                .map(Usuario::getUuid)
-                .filter(uuid -> uuid != null && !uuid.isBlank())
+        List<String> correos = usuarios.stream()
+                .map(Usuario::getCorreo)
+                .filter(c -> c != null && !c.isBlank())
                 .collect(Collectors.toList());
 
-        Map<String, String> accesosFirebase = firebaseAuthPort.getUltimoAccesoBatch(uuids);
+        Map<String, String> accesosFirebase = firebaseAuthPort.getUltimoAccesoBatch(correos);
 
         // Carga en batch los permisos personalizados de los usuarios de esta página
         List<Integer> ids = usuarios.stream().map(Usuario::getId).collect(Collectors.toList());
@@ -70,13 +70,17 @@ public class ListarUsuariosUseCase {
         UsuarioDto dto = new UsuarioDto();
         dto.setId(u.getId());
         dto.setNombreCompleto(u.getNombreCompleto());
+        dto.setNombre(u.getNombre());
+        dto.setApellido(u.getApellido());
+        dto.setNombreUsuario(u.getNombreUsuario());
+        dto.setTelefono(u.getTelefono());
         dto.setCorreo(u.getCorreo());
         dto.setNombreRol(u.getNombreRol());
         dto.setIdRol(u.getIdRol());
         dto.setActivo(u.isActivo());
         dto.setNombreEmpresa(u.getNombreEmpresa());
 
-        String firebaseFecha = accesosFirebase.getOrDefault(u.getUuid(), null);
+        String firebaseFecha = accesosFirebase.getOrDefault(u.getCorreo(), null);
         String fechaFinal;
 
         if (firebaseFecha != null && !firebaseFecha.equals("—") && !firebaseFecha.equals("Nunca")) {

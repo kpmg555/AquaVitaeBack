@@ -20,6 +20,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     @Inject
     EntityManager em;
 
+    private static final String PARAM_ID_EMPRESA = "idEmpresa";
+
     private static final String SQL_USUARIOS = """
             SELECT
                 u.id, u.uuid, u.nombre, u.apellido, u.correo, u.telefono,
@@ -45,7 +47,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     @SuppressWarnings("unchecked")
     public List<Usuario> findActivosConDetalle(Integer idEmpresa, int page, int size) {
         List<Object[]> rows = em.createNativeQuery(SQL_USUARIOS)
-                .setParameter("idEmpresa", idEmpresa)
+                .setParameter(PARAM_ID_EMPRESA, idEmpresa)
                 .setParameter("size", size)
                 .setParameter("offset", page * size)
                 .getResultList();
@@ -54,13 +56,13 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public long countActivos(Integer idEmpresa) {
-        return ((Number) em.createNativeQuery(SQL_COUNT).setParameter("idEmpresa", idEmpresa).getSingleResult())
+        return ((Number) em.createNativeQuery(SQL_COUNT).setParameter(PARAM_ID_EMPRESA, idEmpresa).getSingleResult())
                 .longValue();
     }
 
     @Override
     public long countTotal(Integer idEmpresa) {
-        return ((Number) em.createNativeQuery(SQL_COUNT_TOTAL).setParameter("idEmpresa", idEmpresa).getSingleResult())
+        return ((Number) em.createNativeQuery(SQL_COUNT_TOTAL).setParameter(PARAM_ID_EMPRESA, idEmpresa).getSingleResult())
                 .longValue();
     }
 

@@ -17,6 +17,8 @@ import java.util.List;
 @ApplicationScoped
 public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
 
+    private static final String COL_CODIGO_ERROR = "codigo_error";
+
     @Inject
     DataSource dataSource;
 
@@ -51,8 +53,8 @@ public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
                         rs.getString("nombre_api"),
                         rs.getString("endpoint"),
                         rs.getString("estado"),
-                        rs.getObject("codigo_error") != null
-                                ? rs.getInt("codigo_error")
+                        rs.getObject(COL_CODIGO_ERROR) != null
+                                ? rs.getInt(COL_CODIGO_ERROR)
                                 : null,
                         rs.getString("mensaje"),
                         rs.getInt("ocurrencias")
@@ -89,7 +91,7 @@ public class ApiMonitorRepositoryAdapter implements ApiMonitorRepositoryPort {
         ) {
             while (rs.next()) {
 
-                int code = rs.getInt("codigo_error");
+                int code = rs.getInt(COL_CODIGO_ERROR);
 
                 String severidad = code == 401
                         ? "CRITICA"

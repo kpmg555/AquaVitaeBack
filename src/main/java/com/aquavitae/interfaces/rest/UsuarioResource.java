@@ -19,6 +19,8 @@ import java.util.NoSuchElementException;
 @Produces(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
 
+    private static final String MODULO_GESTION_USUARIOS = "Gestión Usuarios";
+
     @Inject
     ListarUsuariosUseCase listarUsuariosUseCase;
 
@@ -64,7 +66,7 @@ public class UsuarioResource {
 
             registrarAuditoriaSegura(
                     "CREAR_USUARIO",
-                    "Gestión Usuarios",
+                    MODULO_GESTION_USUARIOS,
                     "Usuario",
                     "Se creó un usuario desde el módulo de administración",
                     "INFO",
@@ -96,7 +98,7 @@ public class UsuarioResource {
 
             registrarAuditoriaSegura(
                     "EDITAR_USUARIO",
-                    "Gestión Usuarios",
+                    MODULO_GESTION_USUARIOS,
                     "Usuario #" + id,
                     "Se editó un usuario desde el módulo de administración",
                     "INFO",
@@ -131,7 +133,7 @@ public class UsuarioResource {
 
             registrarAuditoriaSegura(
                     "ELIMINAR_USUARIO",
-                    "Gestión Usuarios",
+                    MODULO_GESTION_USUARIOS,
                     "Usuario #" + id,
                     "Se eliminó o desactivó un usuario desde el módulo de administración",
                     "ALTA",
