@@ -3,6 +3,9 @@ steps:
   args: ['mvn', 'clean', 'package', '-DskipTests']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'src/main/docker/Dockerfile.jvm', '-t', 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest', '.']
+# Subir la imagen ANTES de desplegar (si no, Cloud Run jala el :latest del build anterior)
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/aquavitaeback/aquavitae-repo/aquavitae-backend:latest']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
